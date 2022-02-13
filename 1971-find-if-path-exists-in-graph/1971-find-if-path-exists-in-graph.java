@@ -1,5 +1,6 @@
 class Solution {
     public boolean validPath(int n, int[][] edges, int source, int destination) {
+        // DFS
         List<List<Integer>> graph = new ArrayList<>();
         
         for(int i =0; i < n; i++)
@@ -16,30 +17,30 @@ class Solution {
             
         }
         
-        Queue<Integer> queue = new LinkedList<>();
-        boolean[] visited = new boolean[n];
-        queue.add(source);
-        
-        while(queue.size() > 0){
-            int currentNode = queue.remove();
-            
-            if(visited[currentNode]){
-                continue;
-            }
-            
-            if(currentNode == destination){
-                return true;
-            }
-            
-            visited[currentNode] = true;
-            
-            for(Integer neighbour:graph.get(currentNode)){
-                queue.add(neighbour);
-            }
-            
+        return pathExists(n, graph, source, destination, new int[n]);
+           
+    }
+    
+        private boolean pathExists(int n, List<List<Integer>> graph, int currentNode, int destination, int[] visited){
+        if(visited[currentNode] == 1){
+            return false;
         }
         
-        return false;
+        if(currentNode == destination){
+            return true;
+        }
+        
+        visited[currentNode] = 1;
+        
+        boolean isPath = false;
+        for(int neighbour : graph.get(currentNode)){
+            if(pathExists(n, graph, neighbour, destination, visited)){
+                return true;
+            }
+        }
+        
+        return isPath;
         
     }
+    
 }
