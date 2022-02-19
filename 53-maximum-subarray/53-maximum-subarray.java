@@ -1,17 +1,18 @@
 class Solution {
     public int maxSubArray(int[] nums) {
-        int n = nums.length;
-        int dp[] = new int[n];
+        int[] dp = new int[nums.length];
         
-        dp[0] = nums[0];
-        int answer = dp[0];
+        dp[0]=nums[0];
         
-        for(int i = 1; i < n; i++){
-            dp[i] = Math.max(dp[i - 1] + nums[i], nums[i]);
-            answer = Math.max(answer, dp[i]);
+        for(int i=1 ; i<nums.length;i++)
+        {
+            dp[i]=Math.max(nums[i],dp[i-1]+nums[i]);
         }
         
-        return answer;
+        int sum=-10000;
+        for(int i=0 ; i<nums.length;i++)
+            sum=Math.max(sum,dp[i]);
         
+        return sum;
     }
 }
