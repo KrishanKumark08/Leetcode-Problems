@@ -29,13 +29,10 @@ class Solution
 
 	public int minDifference(int arr[], int n) 
 	{ 
-	    int ans[] = new int[1];
-	    ans[0] = Integer.MAX_VALUE;
-	    return minDiff(arr, n, 0, 0, 0, ans, new HashMap<>());
-	    //return ans[0];
+	    return minDiff(arr, n, 0, 0, 0, new HashMap<>());
 	} 
 	
-	private int minDiff(int[] arr, int n, int currentIndex, int firstSum, int secondSum, int ans[], HashMap<String, Integer> memo){
+	private int minDiff(int[] arr, int n, int currentIndex, int firstSum, int secondSum, HashMap<String, Integer> memo){
 	    
 	    if(currentIndex >= n){
 	        return Math.abs(firstSum - secondSum);
@@ -46,8 +43,8 @@ class Solution
 	        return memo.get(currentKey);
 	    }
 	    
-	    int first = minDiff(arr, n, currentIndex + 1, firstSum + arr[currentIndex], secondSum, ans, memo);
-	    int second = minDiff(arr, n, currentIndex + 1, firstSum, secondSum + arr[currentIndex], ans, memo);
+	    int first = minDiff(arr, n, currentIndex + 1, firstSum + arr[currentIndex], secondSum, memo);
+	    int second = minDiff(arr, n, currentIndex + 1, firstSum, secondSum + arr[currentIndex], memo);
 	    memo.put(currentKey, Math.min(first, second));
 	    return memo.get(currentKey);
 	}
