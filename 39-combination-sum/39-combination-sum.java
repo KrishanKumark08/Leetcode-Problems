@@ -1,35 +1,26 @@
 class Solution {
     public List<List<Integer>> combinationSum(int[] candidates, int target) {
-        
-        List<List<Integer>> combinations = new ArrayList<>();
-        
-        generateTotalWays(candidates, 0, target, combinations, new ArrayList<Integer>());
-        
-        return combinations;
-        
+        List<List<Integer>> list = new ArrayList<>();
+        combinations(candidates,target,0,new ArrayList<>(),list);
+        return list;
     }
-    
-    public void generateTotalWays(int[] candidates, int currentIndex, int target, List<List<Integer>> combinations, List<Integer> currentAns){
-        
-        if(target == 0){
-            combinations.add(new ArrayList<>(currentAns));
-            return;
-        }       
-        if(currentIndex >= candidates.length){
+    public void combinations(int[] nums, int target,int n,ArrayList<Integer>arr,
+                             List<List<Integer>> list)
+    {
+        if(target==0)
+        {
+            list.add(new ArrayList(arr));
             return;
         }
-        
-        int currentVal = candidates[currentIndex];
-        
-        if(currentVal <= target){
-            currentAns.add(currentVal);
-            generateTotalWays(candidates, currentIndex, target - currentVal, combinations, currentAns);
-            currentAns.remove(currentAns.size() - 1);
+        if(n>=nums.length)
+            return;
+        if(nums[n]<=target)
+        {
+            arr.add(nums[n]);
+            combinations(nums,target-nums[n],n,arr,list);
+            arr.remove(arr.size()-1);
         }
-        
-        generateTotalWays(candidates, currentIndex + 1, target, combinations, currentAns);
-        
-        
+        combinations(nums,target,n+1,arr,list);
+        return;
     }
-    
 }
