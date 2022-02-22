@@ -33,10 +33,7 @@ class GFG
 //User function Template for Java
 
 class Solution{
-
-
     static Boolean isSubsetSum(int n, int arr[], int sum){
-        
         boolean[][] dp = new boolean[n + 1][sum + 1];
         
         for(int j = 0; j < sum + 1; j++){
@@ -56,11 +53,8 @@ class Solution{
                 else{
                     dp[i][j] = dp[i + 1][j];
                 }
-                
             }
         }
-        
         return dp[0][sum];
-        
     }
 }
