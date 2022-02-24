@@ -23,7 +23,7 @@ class Solution {
             }
         }
         
-        if(memo[0][amount] >= Integer.MAX_VALUE - 10)
+        if(memo[0][amount] == Integer.MAX_VALUE - 10)
             return -1;
         
         return memo[0][amount];
