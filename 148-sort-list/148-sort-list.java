@@ -1,66 +1,79 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
 class Solution {
     public ListNode sortList(ListNode head) {
-        return doSort(head);
+        return dosort(head);
     }
-    
-    public ListNode doSort(ListNode head){
-        
-        if(head == null || head.next == null){
+    public ListNode dosort(ListNode head)
+    {
+        if(head==null||head.next==null)
             return head;
+        ListNode fast=head,slow=head;
+        while(fast.next!=null&&fast.next.next!=null)
+        {
+            fast=fast.next.next;
+            slow=slow.next;
         }
-        
-        ListNode slowPtr = head;
-        ListNode fastPtr = head;
-        
-        while(fastPtr.next != null && fastPtr.next.next != null){
-            fastPtr = fastPtr.next.next;
-            slowPtr = slowPtr.next;
-        }
-        
-        ListNode l2 = slowPtr.next;
-        slowPtr.next = null;
-        ListNode l1 = head;
-        
-        ListNode leftLinkedList = doSort(l1);
-        ListNode rightLinkedList = doSort(l2);
-        
-        return merge(leftLinkedList, rightLinkedList);
+        ListNode list2=slow.next;
+        slow.next=null;
+        ListNode list1=head;
+        ListNode Left=dosort(list1);
+        ListNode right=dosort(list2);
+        return merge(Left,right);
     }
-    
-    public ListNode merge(ListNode l1, ListNode l2) {
-        if(l1 == null){
-            return l2;
-        }
-        
-        if(l2 == null){
-            return l1;
-        }
-        
-        ListNode dummyNode = new ListNode(-101);
-        ListNode head = dummyNode;
-        
-        while(l1 != null && l2 != null){
-            if(l1.val < l2.val){
-                ListNode newNode = new ListNode(l1.val);
-                dummyNode.next = newNode;
-                l1 = l1.next;
-            }
-            else{
-                ListNode newNode = new ListNode(l2.val);
-                dummyNode.next = newNode;
-                l2 = l2.next;
-            }
-            dummyNode = dummyNode.next;
-        }
-        
-        if(l1 == null){
-            dummyNode.next = l2;
-        }
-        
-        if(l2==null){
-            dummyNode.next = l1;
-        }
-        
-        return head.next;
-    } 
+     public ListNode merge(ListNode list1,ListNode list2)
+     {
+         if(list1==null)return list2;
+         if(list2==null)return list1;
+         
+         ListNode p=list1,q=list2;
+         ListNode list=new ListNode(-1);
+         ListNode current=list;
+         while(p!=null&&q!=null)
+         {
+             if(p.val>=q.val)
+             {
+                 ListNode d=new ListNode(q.val);
+                 current.next=d;
+                 q=q.next;
+             }
+             else
+             {
+                ListNode d=new ListNode(p.val);
+                 current.next=d; 
+                 p=p.next;
+             }
+             current=current.next;
+         }
+          while(p!=null)
+         {
+                ListNode d=new ListNode(p.val);
+                 current.next=d; 
+             current=current.next;
+              p=p.next;
+         }
+         while(q!=null)
+         {
+                ListNode d=new ListNode(q.val);
+                 current.next=d; 
+             current=current.next;
+              q=q.next;
+         }
+         ListNode l=list;
+         while(l!=null)
+         {
+             System.out.print(l.val+" ");
+             l=l.next;
+         }
+         System.out.println();
+         return list.next;
+     }
 }
