@@ -25,27 +25,42 @@ class GFG
     }
 }// } Driver Code Ends
 
-
 //User function Template for Java
 
 class Solution{
-    int longestCommonSubstr(String s1, String s2, int m, int n){
-        int[][] dp = new int[m+1][n+1];
+    
+    int longestCommonSubstr(String s1, String s2, int n, int m){
+        int[] ans = new int[1];
         
-        int answer = 0;
-        for(int i = 1; i < m + 1; i++){
-            for(int j = 1; j < n + 1; j++){
-                if(s1.charAt(i - 1) == s2.charAt(j - 1)){
-                    dp[i][j] = 1 + dp[i - 1][j - 1];
-                }
-                else{
-                    dp[i][j] = 0;
-                }
-                answer = Math.max(answer, dp[i][j]);
-            }
+        int[][] memo = new int[n+1][m+1];
+        for (int[] row : memo)
+            Arrays.fill(row, -1);
+        
+        longest(s1, s2, n, m, 0, 0, ans, 0, memo);
+        return ans[0];
+    }
+    
+    private void longest(String s1, String s2, int n, int m, int ci1, int ci2, int[] ans, int currentLength, int[][] memo){
+        ans[0] = Math.max(ans[0], currentLength);
+        
+        if(ci1 >= n || ci2 >= m){
+            return ;
         }
         
-        return answer;
-        
+        if(s1.charAt(ci1) == s2.charAt(ci2)){
+            longest(s1, s2, n, m, ci1 + 1, ci2 + 1, ans, currentLength + 1, memo);
+            longest(s1, s2, n, m, ci1, ci2 + 1, ans, 0, memo);
+            longest(s1, s2, n, m, ci1 + 1, ci2, ans, 0, memo);
+        }
+        else{
+            if(memo[ci1][ci2] != -1){
+                return;
+            }
+            
+            memo[ci1][ci2] = 1;
+            longest(s1, s2, n, m, ci1, ci2 + 1, ans, 0, memo);
+            longest(s1, s2, n, m, ci1 + 1, ci2, ans, 0, memo);
+        }
+        return;
     }
 }
