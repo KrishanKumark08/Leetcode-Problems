@@ -36,7 +36,7 @@ class Solution {
                     i = i + 1;
                 }
             }
-            System.out.println(str);
+           // System.out.println(str);
         }
         
         while(i != n){
