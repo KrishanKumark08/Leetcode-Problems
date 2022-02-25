@@ -1,26 +1,26 @@
 class Solution {
-    public boolean isSubsequence(String s, String t) {
+    public boolean isSubsequence(String text1, String text2) {
         
-        if(s.length() == 0){
+        int n = text1.length();
+        int m = text2.length();
+        
+        int[][] memo = new int[n + 1][m + 1];
+        
+        for(int i = n - 1; i >= 0; i--){
+            for(int j = m - 1; j >= 0; j--){
+                if(text1.charAt(i) == text2.charAt(j)){
+                    memo[i][j] = 1 + memo[i + 1][j + 1];
+                }
+                else{
+                    memo[i][j] = Math.max(memo[i][j + 1], memo[i + 1][j]);
+                }
+            }
+        }
+        
+        if(memo[0][0] == n){
             return true;
         }
         
-        for(int i = 0; i < t.length(); i++){
-            if(t.charAt(i) == s.charAt(0)){
-                s = s.substring(1);
-            }
-            
-            if(s.equals("")){
-                return true;
-            }
-            
-        }
-        
-        if(s.equals("")){
-            return true;
-        }
-        
-        return false;
-        
+        return false; 
     }
 }
