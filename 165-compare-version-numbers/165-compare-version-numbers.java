@@ -1,5 +1,6 @@
 class Solution {
     public int compareVersion(String version1, String version2) {
+        
         String[] str1 = version1.split("\\.");
         String[] str2 = version2.split("\\.");
         
@@ -49,6 +50,5 @@ class Solution {
         }
         
         return 0;
-        
     }
 }
