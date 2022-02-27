@@ -13,7 +13,7 @@ class Solution {
             return memo[start][end];
         }
         
-        for(int k = start; k < end; k++){
+        for(int k = start; k <= end; k++){
             if(isPalindrome(s, start, k)){
                 int tempAns = 1 + minimumCuts(s, k + 1, end, memo);
                 currentAns = Math.min(currentAns, tempAns);
