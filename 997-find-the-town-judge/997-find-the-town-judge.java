@@ -1,26 +1,19 @@
 class Solution {
     public int findJudge(int n, int[][] trust) {
+        int[] inDegree = new int[n + 1];
+        int[] outDegree = new int[n + 1];
         
-        int trusts = trust.length;
-        
-        List<List<Integer>> graph = new ArrayList<>();
-        
-        for(int i =0; i < n + 1; i++)
-        {
-            graph.add(new ArrayList<>());
-        }
-        
-        HashSet<Integer> doingTrust = new HashSet<>();
-        
-        for(int i = 0; i < trusts; i++){
+        for(int i = 0;i < trust.length; i++){
             int v1 = trust[i][0];
             int v2 = trust[i][1];
-            graph.get(v2).add(v1);
-            doingTrust.add(v1);
+            
+            outDegree[v1] += 1;
+            inDegree[v2] += 1;
+            
         }
         
         for(int i = 1; i <= n; i++){
-            if((graph.get(i).size()) == n - 1 && !doingTrust.contains(i)){
+            if(outDegree[i] == 0 && inDegree[i] == n - 1){
                 return i;
             }
         }
