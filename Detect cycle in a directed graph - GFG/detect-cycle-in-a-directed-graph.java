@@ -46,9 +46,16 @@ class Solution {
             }
         }
         
+        HashSet<Integer> visited = new HashSet<>();
+        
         while(!queue.isEmpty()){
             int currentVertex = queue.remove();
             
+            if(visited.contains(currentVertex)){
+                continue;
+            }
+            
+            visited.add(currentVertex);
             for(int neighbour:adj.get(currentVertex)){
                 inDegree[neighbour]--;
                 if(inDegree[neighbour] == 0){
