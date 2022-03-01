@@ -14,8 +14,9 @@ class Solution {
                 if(nums[i] > nums[j]){
                     dp[i] = Math.max(dp[i], dp[j] + 1);
                 }
+                answer = Math.max(answer, dp[i]);
             }
-            answer = Math.max(answer, dp[i]);
+            
         }
         
         return answer;
