@@ -28,49 +28,50 @@ class DriverClass {
 }// } Driver Code Ends
 
 
+
 /*Complete the function below*/
 
 class Solution {
     // Function to detect cycle in a directed graph.
     public boolean isCyclic(int V, ArrayList<ArrayList<Integer>> adj) {
+        int[] inDegree = findInDegree(V, adj);
         
-        HashSet<Integer> visited = new HashSet<>(); // BEcause If vertex are a b c then we can't use array
-        HashSet<Integer> recStack = new HashSet<>();
+        Queue<Integer> queue = new LinkedList<>();
         
-        for(int currentVertex = 0; currentVertex < V; currentVertex++){
-            if(visited.contains(currentVertex)){
-                continue;
+        int ans = 0;
+        for(int i = 0;i < V; i++){
+            if(inDegree[i] == 0){
+                queue.add(i);
+                ans++;
             }
-            
-            if(checkIsCyclic(currentVertex, visited, recStack, adj) == true){
-                return true;
-            }
-            
         }
         
-        return false;
+        while(!queue.isEmpty()){
+            int currentVertex = queue.remove();
+            
+            for(int neighbour:adj.get(currentVertex)){
+                inDegree[neighbour]--;
+                if(inDegree[neighbour] == 0){
+                    queue.add(neighbour);
+                    ans++;
+                }
+            }
+        }
+        
+        return ans != V;
         
     }
     
-    private boolean checkIsCyclic(int currentVertex, HashSet<Integer> visited, HashSet<Integer> recStack, ArrayList<ArrayList<Integer>> adj){
-        visited.add(currentVertex);
-        recStack.add(currentVertex);
+    private int[] findInDegree(int n, ArrayList<ArrayList<Integer>> graph){
+        int[] inDegree = new int[n];
         
-        
-        for(Integer neighbour:adj.get(currentVertex)){
-            if(!visited.contains(neighbour)){
-                if(checkIsCyclic(neighbour, visited, recStack, adj) == true){
-                    return true;
-                }
+        for(int i = 0; i < n;i++){
+            for(int neighbour:graph.get(i)){
+                inDegree[neighbour]++;
             }
-            else if(recStack.contains(neighbour)){
-                    return true;
-                }
         }
         
-        recStack.remove(currentVertex);
-        return false;
+        return inDegree;
     }
-    
     
 }
