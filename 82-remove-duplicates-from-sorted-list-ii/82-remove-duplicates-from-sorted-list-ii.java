@@ -10,23 +10,46 @@
  */
 class Solution {
     public ListNode deleteDuplicates(ListNode head) {
-        TreeMap<Integer, Integer> memo = new TreeMap<>();
-        
-        while(head != null){
-            memo.put(head.val, memo.getOrDefault(head.val, 0) + 1);
-            head = head.next;
-        }
-        
-        ListNode dummyNode = new ListNode(-101);
+        ListNode dummyNode = new ListNode(-100);
         ListNode newHead = dummyNode;
         
-        for(int node:memo.keySet()){
-            //System.out.println("Key : "+node+" value = "+memo.get(node));
-            if(memo.get(node) == 1){
-                newHead.next = new ListNode(node);
+        ListNode prev = head;
+        if(head == null){
+            return head;
+        }
+        ListNode curr = head.next;
+        
+        int last = 0;
+        
+        while(curr != null){
+            if(prev.val == curr.val){
+                while(curr != null && prev.val == curr.val){
+                    //System.out.println("prev = "+prev.val+" curr = "+curr.val+" dupli");
+                    last = prev.val;
+                    prev = curr;
+                    curr = curr.next;
+                }
+                if(curr != null){
+                    //System.out.println("prev = "+prev.val+" curr = "+curr.val+" dupli");
+                    last = prev.val;
+                    prev = curr;
+                    curr = curr.next;
+                }   
+            }
+            else{
+                //System.out.println("prev = "+prev.val+" curr = "+curr.val);
+                newHead.next = new ListNode(prev.val);
                 newHead = newHead.next;
+                prev = curr;
+                curr = curr.next;
             }
         }
+        
+        if(prev.val != last){
+            newHead.next = prev;
+        }
+        
         return dummyNode.next;
+        
     }
 }
