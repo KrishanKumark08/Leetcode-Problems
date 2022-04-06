@@ -17,7 +17,7 @@ class Solution {
                 keys[t++] = i;
 
         long ans = 0;
-
+        
         for (int i = 0; i < keys.length; ++i) {
             int x = keys[i];
             int T = target - x;
@@ -35,7 +35,7 @@ class Solution {
                         ans += count[x] * (count[x] - 1) / 2 * count[z];
                     } else if (i < j && j == k) {
                         ans += count[x] * count[y] * (count[y] - 1) / 2;
-                    } else {
+                    } else { 
                         ans += count[x] * (count[x] - 1) * (count[x] - 2) / 6;
                     }
 
