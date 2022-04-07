@@ -1,22 +1,25 @@
 class Solution {
     public int lastStoneWeight(int[] stones) {
-       // array = ArrayUtils.remove(array, index);
-       List<Integer> list = new ArrayList<Integer>();
+        List<Integer> list = new ArrayList<Integer>();
         for(int stone:stones){
             list.add(stone);
         }
-        stonei(list);
-        return list.get(0);
+        Collections.sort(list);
+        return func(list);
     }
-    public void stonei(List<Integer> targetList)
+    public int func(List<Integer> list)
     {
-        if(targetList.size()==1)
-            return;
-        Collections.sort(targetList);
-       // Arrays.copyOf(stones, stones.length-1);
-        int r=targetList.get(targetList.size()-1)-targetList.get(targetList.size()-2);
-        targetList.set(targetList.size()-2,r);
-        targetList.remove(targetList.size()-1);
-        stonei(targetList);
+        if(list.size()==1)
+            return list.get(0);
+        if(list.size()==0)
+            return 0;
+        int diff = list.get(list.size()-1) - list.get(list.size()-2);
+            list.remove(list.size()-1);
+            list.remove(list.size()-1);
+            if(diff!=0){
+                list.add(diff);
+                Collections.sort(list);
+            }
+        return func(list);
     }
 }
