@@ -15,35 +15,16 @@
  */
 class Solution {
     public boolean isUnivalTree(TreeNode root) {
-        Queue<TreeNode> queue = new LinkedList<>();
-        
-        HashSet<Integer> set = new HashSet<>();
-        
-        queue.add(root);
-        
-        while(queue.size() > 0){
-            int currentSize = queue.size();
-            
-            while(currentSize > 0){
-                TreeNode currentNode = queue.remove();
-                
-                set.add(currentNode.val);
-                
-                if(currentNode.left != null){
-                    queue.add(currentNode.left);
-                }
-                
-                if(currentNode.right != null){
-                    queue.add(currentNode.right);
-                }
-                currentSize--;
-            }
-            
-            if(set.size() > 1){
-                return false;
-            }
-            
-        }
-        return set.size() == 1;
+        return isUnivalued(root, root.val);
     }
+    
+    private boolean isUnivalued(TreeNode root, int value){
+        if(root == null){
+            return true;
+        }
+        
+        return root.val == value && isUnivalued(root.left, value) && isUnivalued(root.right, value);
+        
+    }
+    
 }
