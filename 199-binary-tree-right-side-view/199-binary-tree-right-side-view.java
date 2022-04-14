@@ -16,32 +16,28 @@
 class Solution {
     public List<Integer> rightSideView(TreeNode root) {
         List<Integer> answer = new ArrayList<>();
+        HashMap<Integer, Integer> memo = new HashMap<>();
         
-        if(root == null){
-            return answer;
+        rightView(root, memo, 0);
+        
+        for(int key:memo.keySet()){
+            answer.add(memo.get(key));
         }
         
-        Queue<TreeNode> queue = new LinkedList<>();
-        
-        queue.add(root);
-        
-        while(queue.size() > 0){
-            int currentSize = queue.size();
-            TreeNode currentNode = new TreeNode(-1);
-            while(currentSize > 0){
-                currentNode = queue.remove();
-                
-                if(currentNode.left != null){
-                    queue.add(currentNode.left);
-                }
-                
-                if(currentNode.right != null){
-                    queue.add(currentNode.right);
-                }
-                currentSize--;
-            }
-            answer.add(currentNode.val);
-        }
         return answer;
     }
+    
+    private void rightView(TreeNode root, HashMap<Integer, Integer> memo, int level){
+        
+        if(root == null){
+            return;
+        }
+        
+        memo.put(level, root.val);
+        
+        rightView(root.left, memo, level + 1);
+        rightView(root.right, memo, level + 1);
+        
+    }
+    
 }
