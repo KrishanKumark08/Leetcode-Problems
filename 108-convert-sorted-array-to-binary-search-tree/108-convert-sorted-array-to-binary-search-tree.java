@@ -26,8 +26,6 @@ class Solution {
         
         int mid = (left + right)/2;
         
-        System.out.println("Left = " + left + " Right = "+right+" mid = "+mid);
-        
         TreeNode root = new TreeNode(nums[mid]);
         root.left = constructBSTFromSortedArray(nums, left, mid - 1);
         root.right = constructBSTFromSortedArray(nums, mid + 1, right);
