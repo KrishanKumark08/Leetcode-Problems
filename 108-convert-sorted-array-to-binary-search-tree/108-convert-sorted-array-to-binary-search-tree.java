@@ -15,12 +15,12 @@
  */
 class Solution {
     public TreeNode sortedArrayToBST(int[] nums) {
-        return constructBSTFromSortedArray(nums, 0, nums.length);
+        return constructBSTFromSortedArray(nums, 0, nums.length - 1);
     }
     
     private TreeNode constructBSTFromSortedArray(int[] nums, int left, int right){
         
-        if(left > right || left == nums.length){
+        if(left > right ){
             return null;
         }
         
