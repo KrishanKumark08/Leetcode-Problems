@@ -45,7 +45,6 @@ class Solution {
         nodesAtDistanceK(root.left, k - 1, set, answer, childParent);
         nodesAtDistanceK(root.right, k - 1, set, answer, childParent);
         nodesAtDistanceK(childParent.get(root), k - 1, set, answer, childParent);
-        set.remove(root);
         
     }
 }
