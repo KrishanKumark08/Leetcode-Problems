@@ -14,33 +14,33 @@
  * }
  */
 class Solution {
+    int preIndex = 0;
     public TreeNode buildTree(int[] preorder, int[] inorder) {
-        return constructTree(preorder, inorder, 0, preorder.length - 1, new int[1]);
+        HashMap<Integer, Integer> memo = new HashMap<>();
+        
+        for(int i = 0; i < inorder.length; i++){
+            memo.put(inorder[i], i);
+        }
+        
+        return constructTree(preorder, inorder, 0, preorder.length - 1, memo);
     }
     
-    private TreeNode constructTree(int[] preorder, int[] inorder, int left, int right, int[] preIndex){
-        
-        // if(preIndex[0] >= preorder.length){
-        //     return null;
-        // }
+    private TreeNode constructTree(int[] preorder, int[] inorder, int left, int right, HashMap<Integer, Integer> memo){
         
         if(left > right){
             return null;
         }
         
-        TreeNode root = new TreeNode(preorder[preIndex[0]]);
+        int currVal = preorder[preIndex];
+        preIndex++;
         
-        int i = 0;
-        while(i < inorder.length){
-            if(inorder[i] == preorder[preIndex[0]]){
-                break;
-            }
-            i++;
-        }
+        TreeNode root = new TreeNode(currVal);
         
-        preIndex[0]++;
-        root.left = constructTree(preorder, inorder, left, i - 1, preIndex);
-        root.right = constructTree(preorder, inorder, i + 1, right, preIndex);
+        int i = -1;
+        i = memo.get(currVal);
+        
+        root.left = constructTree(preorder, inorder, left, i - 1, memo);
+        root.right = constructTree(preorder, inorder, i + 1, right, memo);
         
         return root;
         
