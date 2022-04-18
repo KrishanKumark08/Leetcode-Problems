@@ -25,7 +25,6 @@ class Solution {
         // }
         
         if(left > right){
-            preIndex[0]--;
             return null;
         }
         
@@ -41,7 +40,6 @@ class Solution {
         
         preIndex[0]++;
         root.left = constructTree(preorder, inorder, left, i - 1, preIndex);
-        preIndex[0]++;
         root.right = constructTree(preorder, inorder, i + 1, right, preIndex);
         
         return root;
