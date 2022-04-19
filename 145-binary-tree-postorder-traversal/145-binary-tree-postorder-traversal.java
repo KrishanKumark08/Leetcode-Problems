@@ -25,6 +25,9 @@ class Pair{
 }
 
 class Solution {
+    
+    // Calculating all the traversals in 1 GO
+    
     public List<Integer> postorderTraversal(TreeNode root) {
         
         List<Integer> preorder = new ArrayList<>();
