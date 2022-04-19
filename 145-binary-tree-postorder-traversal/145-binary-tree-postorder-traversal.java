@@ -13,46 +13,61 @@
  *     }
  * }
  */
+
+class Pair{
+    TreeNode node;
+    int count;
+    Pair(){}
+    Pair(TreeNode node, int count){
+        this.node = node;
+        this.count = count;
+    }
+}
+
 class Solution {
     public List<Integer> postorderTraversal(TreeNode root) {
-        Stack<TreeNode> stack1 = new Stack<>();
         
-        List<Integer> answer = new ArrayList<>();
+        List<Integer> preorder = new ArrayList<>();
+        List<Integer> inorder = new ArrayList<>();
+        List<Integer> postorder = new ArrayList<>();
         
         if(root == null){
-            return answer;
+            return postorder;
         }
         
-        TreeNode curr = root;
+        Stack<Pair> stack = new Stack<>();
         
-        while(curr != null || !stack1.isEmpty()){
-            if(curr != null){
-                stack1.push(curr);
-                curr = curr.left;
-            }
-            else{
-                TreeNode temp = stack1.peek().right;
-                
-                if(temp == null){
-                    temp = stack1.pop();
-                    answer.add(temp.val);
-                    
-                    while(!stack1.isEmpty() && temp == stack1.peek().right){
-                        temp = stack1.pop();
-                        answer.add(temp.val);
-                    }
-                    
+        Pair pair= new Pair(root, 1);
+        stack.push(pair);
+        
+        while(!stack.isEmpty()){
+            Pair currPair= stack.pop();
+            
+            if(currPair.count == 1){
+                preorder.add(currPair.node.val);
+                currPair.count++;
+                stack.push(currPair);
+                if(currPair.node.left != null){
+                    stack.push(new Pair(currPair.node.left, 1));
                 }
-                else{
-                    curr = temp;
-                }
-                
             }
-            
-            
-            
+            else if(currPair.count == 2){
+                inorder.add(currPair.node.val);
+                currPair.count++;
+                stack.push(currPair);
+                if(currPair.node.right != null){
+                    stack.push(new Pair(currPair.node.right, 1));
+                }
+            }
+            else if(currPair.count == 3){
+                postorder.add(currPair.node.val);
+            }
         }
         
-        return answer;
+        System.out.println(preorder);
+        System.out.println(inorder);
+        System.out.println(postorder);
+        
+        return postorder;
     }
 }
