@@ -27,7 +27,8 @@ class Pair{
 class Solution {
     
     // Calculating all the traversals in 1 GO
-    
+    // TC : O(3*n)
+    // SC : O(4*n)
     public List<Integer> postorderTraversal(TreeNode root) {
         
         List<Integer> preorder = new ArrayList<>();
