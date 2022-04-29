@@ -1,32 +1,36 @@
 class Solution {
     public boolean isBipartite(int[][] graph) {
-        int[] colors = new int[graph.length];
-        Arrays.fill(colors,-1);
-        for(int i =0;i<graph.length;i++)
-        {
-            if(colors[i]==-1)
-            {
-       if( bipartite(graph,i,0,colors)==false)
-           return false;
+        int n = graph.length;
+        int[] colors = new int[n];
+        Arrays.fill(colors, -1);
+        
+        for(int currentVertex = 0; currentVertex < n; currentVertex++){
+            
+            if(colors[currentVertex] != -1){
+                continue;
+            }
+            
+            if(hasEvenLengthCycle(graph, currentVertex, 0, colors) == false){
+                return false;
+            }
+            
+        }
+        return true;
+    }
+    
+    private boolean hasEvenLengthCycle(int[][] graph, int currentVertex, int color, int[] colors){
+        if(colors[currentVertex] != -1){
+            return colors[currentVertex] == color;
+        }
+        
+        colors[currentVertex] = color;
+        
+        for(int neigh:graph[currentVertex]){
+            if(hasEvenLengthCycle(graph, neigh, 1- color, colors) == false){
+                return false;
             }
         }
         return true;
     }
-    private boolean bipartite(int[][] graph,int current,int color,int[] colors)
-    {
-        if(colors[current]!=-1)
-        {
-            if(color == colors[current])
-                return true;
-            return false;
-        }
-        
-        colors[current] = color;
-        for(int neighbour: graph[current])
-        {
-           if(bipartite(graph,neighbour,Math.abs(color-1),colors)==false)
-               return false;
-        }
-        return true;
-    }
+    
 }
