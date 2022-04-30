@@ -28,57 +28,43 @@ class DriverClass {
 }// } Driver Code Ends
 
 
-
 /*Complete the function below*/
 
 class Solution {
     // Function to detect cycle in a directed graph.
     public boolean isCyclic(int V, ArrayList<ArrayList<Integer>> adj) {
-        int[] inDegree = findInDegree(V, adj);
-        
-        Queue<Integer> queue = new LinkedList<>();
-        
-        int ans = 0;
-        for(int i = 0;i < V; i++){
-            if(inDegree[i] == 0){
-                queue.add(i);
-                ans++;
-            }
-        }
-        
-        HashSet<Integer> visited = new HashSet<>();
-        
-        while(!queue.isEmpty()){
-            int currentVertex = queue.remove();
-            
-            if(visited.contains(currentVertex)){
-                continue;
-            }
-            
-            visited.add(currentVertex);
-            for(int neighbour:adj.get(currentVertex)){
-                inDegree[neighbour]--;
-                if(inDegree[neighbour] == 0){
-                    queue.add(neighbour);
-                    ans++;
-                }
-            }
-        }
-        
-        return ans != V;
-        
+      HashSet<Integer> visited = new HashSet<>();
+      HashSet<Integer> recStack = new HashSet<>();
+      
+      for(int currentVertex = 0; currentVertex < V; currentVertex++){
+          if(visited.contains(currentVertex)){
+              continue;
+          }
+          else{
+              if(checkIsCyclic(currentVertex, adj, visited, recStack) == true){
+                  return true;
+              }
+          }
+      }
+      return false;
     }
     
-    private int[] findInDegree(int n, ArrayList<ArrayList<Integer>> graph){
-        int[] inDegree = new int[n];
+    private boolean checkIsCyclic(int currentVertex, ArrayList<ArrayList<Integer>> graph, HashSet<Integer> visited, HashSet<Integer> recStack){
+        visited.add(currentVertex);
+        recStack.add(currentVertex);
         
-        for(int i = 0; i < n;i++){
-            for(int neighbour:graph.get(i)){
-                inDegree[neighbour]++;
+        for(int neighbour:graph.get(currentVertex)){
+            if(!visited.contains(neighbour)){
+                if(checkIsCyclic(neighbour, graph, visited, recStack) == true){
+                    return true;
+                }
             }
+            else if(recStack.contains(neighbour)){
+                    return true;
+                }
         }
-        
-        return inDegree;
+        recStack.remove(currentVertex);
+        return false;
     }
     
 }
