@@ -1,59 +1,47 @@
 class Solution {
     public boolean canFinish(int numCourses, int[][] prerequisites) {
-        ArrayList<ArrayList<Integer>> graph =new ArrayList<ArrayList<Integer>> ();
+        int[] inDegree = new int[numCourses];
+        Queue<Integer> queue = new LinkedList<>();
+        HashSet<Integer> visited = new HashSet<>();
+        List<ArrayList<Integer>> graph = new ArrayList<>();
         
-        for(int i=0;i < numCourses ; i++)
-        {
-            graph.add(i,new ArrayList<>());
+        for(int i = 0; i < numCourses; i++){
+            graph.add(new ArrayList<Integer>());
         }
         
-        for(int i = 0;i < prerequisites.length; i++)
-        {
-            ArrayList<Integer> arr = graph.get(prerequisites[i][0]);
-            arr.add(prerequisites[i][1]);
-            graph.set(prerequisites[i][0],arr);
+        for(int i = 0; i < prerequisites.length; i++){
+            inDegree[prerequisites[i][0]]++;
+            graph.get(prerequisites[i][1]).add(prerequisites[i][0]);
         }
         
-        return  isCyclic(numCourses,  graph);
+        int ans = 0;
+        
+        for(int i = 0;i < numCourses; i++){
+            if(inDegree[i] == 0){
+                queue.add(i);
+                ans++;
+            }
+        }
+        
+        while(!queue.isEmpty()){
+            int currentVertex = queue.remove();
+            
+            if(visited.contains(currentVertex)){
+                continue;
+            }
+            
+            visited.add(currentVertex);
+            for(int neighbour:graph.get(currentVertex)){
+                inDegree[neighbour]--;
+                if(inDegree[neighbour] == 0){
+                    queue.add(neighbour);
+                    ans++;
+                }
+            }
+        }
+        
+        return ans == numCourses;
+        
     }
-     public boolean isCyclic(int V, ArrayList<ArrayList<Integer>> graph) {
-        // code here
-        int[] indegree = new int[graph.size()];
-        for(int i = 0; i < graph.size(); i++)
-        {
-            for(int j : graph.get(i))
-            indegree[j]++;
-        }
-        
-        Queue<Integer> q= new LinkedList<>();
-        
-        for(int i =0; i<graph.size(); i++)
-        {
-            if(indegree[i]==0)
-            {
-                q.add(i);
-            }
-        }
-         
-        while(q.size()>0)
-        {
-            int cv = q.remove();
-            for(int i : graph.get(cv))
-            {
-                indegree[i]--;
-                if(indegree[i]==0)
-                    q.add(i);
-            }
-        }
-         
-         
-        for(int i =0; i<graph.size(); i++)
-        {
-            if(indegree[i]!=0)
-            {
-                return false;
-            }
-        }
-        return true;
-    }
+    
 }
