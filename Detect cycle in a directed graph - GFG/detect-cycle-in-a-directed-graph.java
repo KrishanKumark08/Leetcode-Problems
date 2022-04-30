@@ -33,38 +33,40 @@ class DriverClass {
 class Solution {
     // Function to detect cycle in a directed graph.
     public boolean isCyclic(int V, ArrayList<ArrayList<Integer>> adj) {
-      HashSet<Integer> visited = new HashSet<>();
-      HashSet<Integer> recStack = new HashSet<>();
-      
-      for(int currentVertex = 0; currentVertex < V; currentVertex++){
-          if(visited.contains(currentVertex)){
-              continue;
-          }
-          else{
-              if(checkIsCyclic(currentVertex, adj, visited, recStack) == true){
-                  return true;
-              }
-          }
-      }
-      return false;
-    }
-    
-    private boolean checkIsCyclic(int currentVertex, ArrayList<ArrayList<Integer>> graph, HashSet<Integer> visited, HashSet<Integer> recStack){
-        visited.add(currentVertex);
-        recStack.add(currentVertex);
+        int[] inDegree = calculateIndegree(adj, V);
         
-        for(int neighbour:graph.get(currentVertex)){
-            if(!visited.contains(neighbour)){
-                if(checkIsCyclic(neighbour, graph, visited, recStack) == true){
-                    return true;
+        Queue<Integer> queue = new LinkedList<>();
+        int ans = 0;
+        
+        for(int i = 0; i < V; i++){
+            if(inDegree[i] == 0){
+                queue.add(i);
+                ans++;
+            }
+        }
+        
+        while(!queue.isEmpty()){
+            int currentVertex = queue.remove();
+            
+            for(int neigh:adj.get(currentVertex)){
+                inDegree[neigh]--;
+                if(inDegree[neigh] == 0){
+                    queue.add(neigh);
+                    ans++;
                 }
             }
-            else if(recStack.contains(neighbour)){
-                    return true;
-                }
+            
         }
-        recStack.remove(currentVertex);
-        return false;
-    }
+        return ans!=V;
+    }   
     
+    private int[] calculateIndegree(ArrayList<ArrayList<Integer>> adj, int V){
+        int[] indegree = new int[V];
+        for(int i = 0; i < V; i++){
+            for(int neighbour:adj.get(i)){
+                indegree[neighbour]++;
+            }
+        }
+        return indegree;
+    }
 }
