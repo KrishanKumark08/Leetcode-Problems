@@ -13,29 +13,33 @@ class Solution {
             
             graph.get(v1).add(v2);
             graph.get(v2).add(v1);
+        }
+        
+        Queue<Integer> queue = new LinkedList<>();
+        boolean[] visited = new boolean[n];
+        
+        queue.add(source);
+        
+        while(!queue.isEmpty()){
+            int currentNode = queue.remove();
             
-        }
-        return ifPathExists(n, graph, source, destination, new int[n]);
-    }
-    
-    private boolean ifPathExists(int n, List<List<Integer>> graph, int source, int destination, int[] visited){
-        if(visited[source] == 1){
-            return false;
-        }
-        
-        if(source == destination){
-            return true;
-        }
-        
-        visited[source] = 1;
-        
-        for(int neighbour:graph.get(source)){
-            if(ifPathExists(n, graph, neighbour, destination, visited)){
+            if(visited[currentNode]){
+                continue;
+            }
+            
+            if(currentNode == destination){
                 return true;
             }
+            
+            visited[currentNode] = true;
+            
+            for(Integer neighbour:graph.get(currentNode)){
+                queue.add(neighbour);
+            }
+            
         }
-        
         return false;
+        
     }
 }
     
