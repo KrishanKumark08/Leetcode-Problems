@@ -37,6 +37,7 @@ class Solution {
         
         Queue<Integer> queue = new LinkedList<>();
         int ans = 0;
+        HashSet<Integer> visited = new HashSet<>();
         
         for(int i = 0; i < V; i++){
             if(inDegree[i] == 0){
@@ -46,7 +47,13 @@ class Solution {
         }
         
         while(!queue.isEmpty()){
-            int currentVertex = queue.remove();
+            int currentVertex= queue.remove();
+            
+            if(visited.contains(currentVertex)){
+                continue;
+            }
+            
+            visited.add(currentVertex);
             
             for(int neigh:adj.get(currentVertex)){
                 inDegree[neigh]--;
