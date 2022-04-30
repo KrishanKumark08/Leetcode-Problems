@@ -3,12 +3,11 @@ class Solution {
         // DFS
         List<List<Integer>> graph = new ArrayList<>();
         
-        for(int i =0; i < n; i++)
-        {
+        for(int i = 0; i < n; i++){
             graph.add(new ArrayList<>());
         }
         
-        for(int i=0; i < edges.length; i++){
+        for(int i = 0; i < edges.length; i++){
             int v1 = edges[i][0];
             int v2 = edges[i][1];
             
@@ -16,31 +15,27 @@ class Solution {
             graph.get(v2).add(v1);
             
         }
-        
-        return pathExists(n, graph, source, destination, new int[n]);
-           
+        return ifPathExists(n, graph, source, destination, new int[n]);
     }
     
-        private boolean pathExists(int n, List<List<Integer>> graph, int currentNode, int destination, int[] visited){
-        if(visited[currentNode] == 1){
+    private boolean ifPathExists(int n, List<List<Integer>> graph, int source, int destination, int[] visited){
+        if(visited[source] == 1){
             return false;
         }
         
-        if(currentNode == destination){
+        if(source == destination){
             return true;
         }
         
-        visited[currentNode] = 1;
+        visited[source] = 1;
         
-        boolean isPath = false;
-        for(int neighbour : graph.get(currentNode)){
-            if(pathExists(n, graph, neighbour, destination, visited)){
+        for(int neighbour:graph.get(source)){
+            if(ifPathExists(n, graph, neighbour, destination, visited)){
                 return true;
             }
         }
         
-        return isPath;
-        
+        return false;
     }
-    
 }
+    
