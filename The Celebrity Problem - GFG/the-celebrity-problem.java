@@ -32,27 +32,25 @@ class GFG{
 class Solution
 { 
     //Function to find if there is a celebrity in the party or not.
-    int celebrity(int arr[][], int n)
+    int celebrity(int M[][], int n)
     {
-    	int knownBy[] = new int[n];
-    	int knows[] = new int[n];
+    	int[] inDegree = new int[n];
+        int[] outDegree = new int[n];
         
-        for(int i = 0; i < n; i++){
-            for(int j = 0; j < n; j++){
-                if(arr[i][j] == 1){
-                    knows[i]++;
-                    knownBy[j]++;
+        for(int i = 0; i < M.length; i++){
+            for(int j = 0; j < M[0].length; j++){
+                if(M[i][j] == 1){
+                    inDegree[j]++;
+                    outDegree[i]++;
                 }
             }
         }
         
         for(int i = 0; i < n; i++){
-            if(knows[i] == 0 && knownBy[i] == n - 1){
+            if(inDegree[i] == n - 1 && outDegree[i] == 0){
                 return i;
             }
         }
-        
         return -1;
-        
     }
 }
