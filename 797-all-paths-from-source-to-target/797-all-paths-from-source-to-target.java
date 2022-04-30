@@ -1,5 +1,6 @@
 class Solution {
     public List<List<Integer>> allPathsSourceTarget(int[][] graph) {
+        // BFS
         List<List<Integer>> ans = new ArrayList<>();
         Queue<List<Integer>> queue = new LinkedList<>();
         
