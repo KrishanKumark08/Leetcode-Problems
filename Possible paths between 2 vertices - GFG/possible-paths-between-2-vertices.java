@@ -34,39 +34,34 @@ class GFG {
 
 class Solution {
     // Function to count paths between two vertices in a directed graph.
-    public int countPaths(int n, ArrayList<ArrayList<Integer>> graph, int source,
+    public int countPaths(int V, ArrayList<ArrayList<Integer>> graph, int source,
                    int destination) {
-        List<List<Integer>> answer = new ArrayList<>();
-        boolean[] visited = new boolean[n];
-        sourceToTarget(graph, source, visited, destination, new ArrayList<>(), answer);
-        return answer.size();
+        // BFS
+        List<List<Integer>> ans = new ArrayList<>();
+        Queue<List<Integer>> queue = new LinkedList<>();
+        
+        List<Integer> curList = new ArrayList<>();
+        curList.add(source);
+        
+        queue.add(curList);
+        
+        while(!queue.isEmpty()){
+            curList = queue.remove();
+            
+            int v = curList.get(curList.size() - 1);
+            
+            if(v == destination){
+                ans.add(curList);
+                continue;
+            }
+            
+            for(int neighbour:graph.get(v)){
+                List<Integer> newList = new ArrayList<>(curList);
+                newList.add(neighbour);
+                queue.add(newList);
+            }
+            
+        }
+        return ans.size();
     }
-    
-    private void sourceToTarget(ArrayList<ArrayList<Integer>> graph, int currentNode, boolean[] visited, int destination, List<Integer> currentPath, List<List<Integer>> answer){
-        
-        if(currentNode == destination){
-            currentPath.add(currentNode);
-            answer.add(new ArrayList<>(currentPath));
-            currentPath.remove(currentPath.size() - 1);
-            return ;
-        }
-        
-        if(visited[currentNode] == true){
-            return;
-        }
-        
-        currentPath.add(currentNode);
-        visited[currentNode] = true;
-        
-        for(Integer neighbour:graph.get(currentNode)){
-            sourceToTarget(graph, neighbour, visited, destination, currentPath, answer);
-        }
-         
-        currentPath.remove(currentPath.size() - 1);
-        visited[currentNode] = false;
-        return;
-        
-    }
-    
-    
 }
