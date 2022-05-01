@@ -4,6 +4,8 @@ class Solution {
         int[] colors = new int[n];
         Arrays.fill(colors, -1);
         
+        // We are running the for Loop only to handle the disconnected graph
+        
         for(int currentVertex = 0; currentVertex < n; currentVertex++){
             if(colors[currentVertex] != -1){
                 continue;
