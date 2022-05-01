@@ -52,19 +52,17 @@ class DriverClass
 
 
 //User function Template for Java
-
 class Pair implements Comparable<Pair>{
     int vertex;
     int cost;
-    
     Pair(int vertex, int cost){
         this.vertex = vertex;
         this.cost = cost;
     }
     
     public int compareTo(Pair o){
-        return this.cost - o.cost;
-    } 
+        return this.cost  - o.cost;
+    }
     
 }
 
@@ -74,17 +72,18 @@ class Solution
     //from the source vertex S.
     static int[] dijkstra(int V, ArrayList<ArrayList<ArrayList<Integer>>> adj, int S)
     {
-        PriorityQueue<Pair> queue = new PriorityQueue<>();
-        boolean[] visited = new boolean[V];
+        // Write your code here
+        PriorityQueue<Pair> pq = new PriorityQueue<>();
         int[] costs = new int[V];
         
-        queue.add(new Pair(S, 0));
+        boolean[] visited = new boolean[V];
+        pq.add(new Pair(S, 0));
         
-        while(queue.size() > 0){
-            Pair currentPair = queue.remove();
-            
+        while(!pq.isEmpty()){
+            Pair currentPair = pq.remove();
             int currentVertex = currentPair.vertex;
             int currentCost = currentPair.cost;
+            
             
             if(visited[currentVertex] == true){
                 continue;
@@ -96,19 +95,18 @@ class Solution
             ArrayList<ArrayList<Integer>> neighbours = adj.get(currentVertex);
             
             for(ArrayList<Integer> neighbour:neighbours){
+                
                 int currentNeighbour = neighbour.get(0);
                 int currentWeight = neighbour.get(1);
                 
                 if(visited[currentNeighbour] == true){
-                    continue;
+                continue;
                 }
-                
-                queue.add(new Pair(currentNeighbour, currentCost + currentWeight));
+                pq.add(new Pair(currentNeighbour, currentWeight + currentCost));
             }
+            
         }
-        
-        return costs;
-        
+        return costs;   
     }
 }
 
