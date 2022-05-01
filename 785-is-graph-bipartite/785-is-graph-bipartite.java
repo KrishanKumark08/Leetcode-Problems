@@ -5,32 +5,31 @@ class Solution {
         Arrays.fill(colors, -1);
         
         for(int currentVertex = 0; currentVertex < n; currentVertex++){
-            
             if(colors[currentVertex] != -1){
                 continue;
             }
-            
-            if(hasEvenLengthCycle(graph, currentVertex, 0, colors) == false){
-                return false;
+            else{
+                if(checkIfBipartite(graph, colors, currentVertex, 0) == false){
+                    return false;
+                }
             }
-            
         }
         return true;
     }
     
-    private boolean hasEvenLengthCycle(int[][] graph, int currentVertex, int color, int[] colors){
+    private boolean checkIfBipartite(int[][] graph, int[] colors, int currentVertex, int color){
         if(colors[currentVertex] != -1){
             return colors[currentVertex] == color;
         }
         
         colors[currentVertex] = color;
         
-        for(int neigh:graph[currentVertex]){
-            if(hasEvenLengthCycle(graph, neigh, 1- color, colors) == false){
+        for(int neighbour:graph[currentVertex]){
+            if(checkIfBipartite(graph, colors, neighbour, 1 - color) == false){
                 return false;
             }
         }
+        
         return true;
     }
-    
 }
