@@ -15,29 +15,23 @@
  */
 class Solution {
     public List<String> binaryTreePaths(TreeNode root) {
-        List<String> answer = new ArrayList<>();
-        if(root == null){
-            return answer;
-        }
-        treePaths(root, answer, "");
-        return answer;
+        List<String> list=new ArrayList<>();
+        getpaths(root,list,"");
+        return list;
     }
-    
-    private void treePaths(TreeNode root, List<String> answer, String currentAns){
-        
-        if(root.left == null && root.right == null){
-            currentAns += root.val;
-            answer.add(currentAns);
+    private void getpaths(TreeNode root,List<String> list,String h)
+    {
+        if(root==null)
+            return;
+        if(root.left==null&&root.right==null)
+        {
+            h=h+Integer.toString(root.val);
+            list.add(h);
             return;
         }
-        
-        if(root.left != null){
-            treePaths(root.left, answer, currentAns + root.val + "->");
-        }
-        
-        if(root.right != null){
-            treePaths(root.right, answer, currentAns + root.val + "->");
-        }
-        
-    }   
+        h=h+Integer.toString(root.val)+"->";
+        getpaths(root.left,list,h);
+        getpaths(root.right,list,h);
+        return ;
+    }
 }
