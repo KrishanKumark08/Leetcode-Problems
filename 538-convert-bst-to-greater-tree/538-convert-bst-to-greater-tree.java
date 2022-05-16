@@ -15,49 +15,34 @@
  */
 class Solution {
     public TreeNode convertBST(TreeNode root) {
-        List<Integer> list = new ArrayList<>();
-        inorder(root, list);
-        
-        int sum = 0;
-        for(int i : list){
-            sum += i;
+    List<Integer> arr= new ArrayList<>();
+        inorder(root,arr);
+        HashMap<Integer,Integer> map = new HashMap<>();
+        int sum=0;
+        for(int i = arr.size()-1;i>=0;i--)
+        {
+            sum = sum + arr.get(i);
+            map.put(arr.get(i),sum);
         }
-        
-        HashMap<Integer, Integer> memo = new HashMap<>();
-        for(int i : list){
-            sum -= i;
-            memo.put(i, sum);
-        }
-        
-        conversion(root, memo);
-            
+        populatebst(root,map);
         return root;
-        
     }
-    
-    private void inorder(TreeNode root, List<Integer> list){
-        
-       if(root == null){
-           return;
-       }
-        
-        inorder(root.left, list);
-        list.add(root.val);
-        inorder(root.right, list);
-        
-    }
-    
-    private void conversion(TreeNode root, HashMap<Integer, Integer> memo){
-        if(root == null){
+    private void populatebst(TreeNode root,HashMap<Integer,Integer> map)
+    {
+        if(root==null)
             return;
-        }
-        
-        root.val = root.val + memo.get(root.val);
-        
-        conversion(root.left, memo);
-        conversion(root.right, memo);
-        
+        root.val = map.get(root.val);
+        populatebst(root.left,map);
+        populatebst(root.right,map);
+        return;
     }
-    
-    
+    public void inorder(TreeNode root,List<Integer> arr)
+    {
+        if(root==null)
+            return;
+        inorder(root.left,arr);
+        arr.add(root.val);
+        inorder(root.right,arr);
+        return;
+    }
 }
