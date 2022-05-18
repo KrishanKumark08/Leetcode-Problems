@@ -15,19 +15,19 @@
  */
 class Solution {
     public int goodNodes(TreeNode root) {
-        return countOfGoodNodes(root, -100000);
-    }
-    
-    private int countOfGoodNodes(TreeNode root, int prevMax){
-        if(root == null){
+        if(root==null)
             return 0;
-        }
         
-        int ans = 0;
-        if(root.val >= prevMax)
-            ans = 1;
+        return  goodnodes(root,root.val);
+    }
+    public int goodnodes(TreeNode root , int max)
+    {
+        if(root == null)
+            return 0;
         
-        return ans + countOfGoodNodes(root.left, Math.max(root.val, prevMax)) + countOfGoodNodes(root.right, Math.max(root.val, prevMax));
-        
+        int ans =0;
+        if(root.val >= max)
+            ans = ans +1;
+        return ans + goodnodes(root.left,Math.max(root.val,max)) + goodnodes(root.right,Math.max(root.val,max));
     }
 }
