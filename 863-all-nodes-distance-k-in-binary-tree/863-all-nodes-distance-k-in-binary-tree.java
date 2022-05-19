@@ -9,42 +9,35 @@
  */
 class Solution {
     public List<Integer> distanceK(TreeNode root, TreeNode target, int k) {
-        HashMap<TreeNode, TreeNode> childParent = new HashMap<>();
-        
-        childAndParent(root, childParent, null);
-        
+        HashMap<TreeNode,TreeNode> parentmap = new HashMap<>();
+        parentnodes(root,null,parentmap);
         List<Integer> answer = new ArrayList<>();
-        nodesAtDistanceK(target, k, new HashSet<>(), answer, childParent);
+        knodes(target,k,answer,new HashSet<>(),parentmap);
         return answer;
     }
-    
-    private void childAndParent(TreeNode root, HashMap<TreeNode, TreeNode> childParent, TreeNode parent){
-        if(root == null){
+    private void parentnodes(TreeNode root,TreeNode parent,HashMap<TreeNode,TreeNode> parentmap)
+    {
+        if(root==null)
             return;
-        }
-        
-        childParent.put(root, parent);
-        
-        childAndParent(root.left, childParent, root);
-        childAndParent(root.right, childParent, root);
-        
+        parentmap.put(root,parent);
+        parentnodes(root.left,root,parentmap);
+        parentnodes(root.right,root,parentmap);
+        return;
     }
-    
-    private void nodesAtDistanceK(TreeNode root, int k, HashSet<TreeNode> set, List<Integer> answer, HashMap<TreeNode, TreeNode> childParent){
-        
-        if(root == null || set.contains(root)){
+    private void knodes(TreeNode root,int k,List<Integer> answer,HashSet<Integer>visited,HashMap<TreeNode,TreeNode> parentmap)
+    {
+        if(root==null || k<0 ||visited.contains(root.val))
             return;
+         visited.add(root.val);
+        if(k==0)
+        {
+                answer.add(root.val);
+                return;
         }
-        
-        if(k == 0){
-            answer.add(root.val);
-            return;
-        }
-        
-        set.add(root);
-        nodesAtDistanceK(root.left, k - 1, set, answer, childParent);
-        nodesAtDistanceK(root.right, k - 1, set, answer, childParent);
-        nodesAtDistanceK(childParent.get(root), k - 1, set, answer, childParent);
-        
+        visited.add(root.val);
+        knodes(root.left,k-1,answer,visited,parentmap);
+        knodes(root.right,k-1,answer,visited,parentmap);
+        knodes(parentmap.get(root),k-1,answer,visited,parentmap);
+        return;
     }
 }
