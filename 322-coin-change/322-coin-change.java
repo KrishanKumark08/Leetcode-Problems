@@ -1,32 +1,34 @@
 class Solution {
     public int coinChange(int[] coins, int amount) {
+        int ans = minCoins(coins, 0, amount, new HashMap<String,Integer>());
         
-        int n = coins.length;
-        int memo[][] = new int[n + 1][amount + 1];
-        
-        for(int j = 0; j < amount + 1; j++){
-            memo[n][j] = Integer.MAX_VALUE - 10;
-        }
-        
-        for(int i = 0; i < n + 1; i++){
-            memo[i][0] = 0;
-        }
-        
-        for(int i = n - 1; i >= 0; i--){
-            for(int j = 1; j < amount + 1; j++){
-                if(j >= coins[i]){
-                    memo[i][j] = Math.min(1 + memo[i][j - coins[i]], memo[i+1][j]);
-                }
-                else{
-                    memo[i][j] = memo[i + 1][j];
-                }
-            }
-        }
-        
-        if(memo[0][amount] == Integer.MAX_VALUE - 10)
+        if(ans == 100000){
             return -1;
+        }
         
-        return memo[0][amount];
+        return ans;
+    }
+    public int minCoins(int[] coins, int currentIndex, int amount, HashMap<String,Integer> memo){
+        if(amount==0)
+            return 0;
+        if(currentIndex >= coins.length)
+            return 100000; //Maximum Value of Amount in constraints
         
+        String currentKey = Integer.toString(currentIndex) + "_" + Integer.toString(amount);
+        
+        if(memo.containsKey(currentKey)){
+            return memo.get(currentKey);
+        }
+        
+        int consider = 100000; // 
+        if(coins[currentIndex] <= amount){
+            consider = 1 + minCoins(coins, currentIndex, amount - coins[currentIndex], memo);
+        }
+        
+        int notConsider = minCoins(coins, currentIndex + 1, amount, memo);
+        
+        memo.put(currentKey, Math.min(consider, notConsider));
+        
+        return memo.get(currentKey); 
     }
 }
