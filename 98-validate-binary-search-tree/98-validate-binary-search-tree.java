@@ -15,31 +15,24 @@
  */
 class Solution {
     public boolean isValidBST(TreeNode root) {
-        
-        List<Integer> traversal = new ArrayList<>();
-        inorderTraversal(root, traversal);
-        
-        for(int i = 1; i < traversal.size(); i++){
-            if(traversal.get(i) <= traversal.get(i - 1)){
-                return false;
-            }
-        }
-    
-        return true;
-        
+        if(root==null)
+            return true;
+        long min[] = new long[1];
+    min[0]=-99999999999l;
+       return isvalid(root,min);
     }
-    
-    private void inorderTraversal(TreeNode root, List<Integer> traversal){
+    public boolean isvalid(TreeNode root,long[] min)
+    {
+        if(root==null)
+            return true;
         
-        if(root == null){
-            return;
-        }
+         boolean l = isvalid(root.left,min);
+         if(root.val<=min[0] )
+         return false;
         
-        inorderTraversal(root.left, traversal);
-        traversal.add(root.val);
-        inorderTraversal(root.right, traversal);
+        min[0] = root.val;
+        boolean r = isvalid(root.right,min);
         
+        return l && r;
     }
-  
-    
 }
