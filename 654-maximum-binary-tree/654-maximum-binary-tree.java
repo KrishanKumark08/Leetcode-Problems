@@ -15,36 +15,41 @@
  */
 class Solution {
     public TreeNode constructMaximumBinaryTree(int[] nums) {
-        return constructMaximumBT(nums, 0, nums.length - 1);
+        HashMap<Integer,Integer> map = new HashMap<>();
+        
+        for(int i=0 ;i<nums.length ; i++)
+        {
+            map.put(nums[i], i);
+        }
+        
+        return maximumbinarytree(nums,0,nums.length-1,map);
+        
+        
     }
-    
-    private TreeNode constructMaximumBT(int[] nums, int left, int right){
-        
-        if(left > right ){
+    public TreeNode maximumbinarytree(int[] nums,int l,int r,HashMap<Integer,Integer> map)
+    {
+        if(l > r)
             return null;
+        
+        int arr[] = new int[r-l+1];
+        int j =0;
+        for(int i=l;i<=r;i++)
+        {
+            arr[j] = nums[i];
+            j++;
         }
         
-        int node = left;
+        Arrays.sort(arr);
         
-        int i = left;
-        int max = Integer.MIN_VALUE;
-        while(i <= right && i < nums.length){
-            if(nums[i] > max){
-                max = nums[i];
-                node = i;
-            }
-            i++;
-        }
-
-        //System.out.println("Left = " + left + " Right = "+right+" node = "+node);
+        int newval = arr[arr.length-1];
+        TreeNode root = new TreeNode(newval);
         
-        TreeNode root = new TreeNode(nums[node]);
-        //System.out.println("Left");
-        root.left = constructMaximumBT(nums, left, node - 1);
-        //System.out.println("Right");
-        root.right = constructMaximumBT(nums, node + 1, right);
+        int mid = map.get(newval);
+        
+            
+        root.left =  maximumbinarytree(nums , l, mid-1, map);
+        root.right =  maximumbinarytree(nums ,mid+1, r, map);
         
         return root;
-        
     }
 }
