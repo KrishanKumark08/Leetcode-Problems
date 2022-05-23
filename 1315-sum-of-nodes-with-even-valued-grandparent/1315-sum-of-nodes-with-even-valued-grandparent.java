@@ -15,22 +15,45 @@
  */
 class Solution {
     public int sumEvenGrandparent(TreeNode root) {
-        return evenValuedGrandParent(root, null, null);
-    }
-    
-    private int evenValuedGrandParent(TreeNode root, TreeNode parent, TreeNode grandParent){
-        if(root == null){
-            return 0;
-        }
-    
-        if(grandParent == null || grandParent.val % 2 != 0){
-            return evenValuedGrandParent(root.left, root, parent) + evenValuedGrandParent(root.right, root, parent);
-        }
-        else{
-            if(grandParent.val % 2 == 0){
-                return root.val + evenValuedGrandParent(root.left, root, parent) + evenValuedGrandParent(root.right, root, parent);
+        HashMap<TreeNode,TreeNode> parentmap = new HashMap<>();
+        HashMap<TreeNode,TreeNode> grandparentmap = new HashMap<>();
+        int sum =0;
+        
+        populateparent(root, null, parentmap);
+        populategrandparent( parentmap, grandparentmap);
+        
+        for(TreeNode j:grandparentmap.keySet())
+        {
+            TreeNode i = grandparentmap.get(j);
+            if(i != null && i.val%2 ==0)
+            {
+                System.out.println(j.val);
+                 sum = sum + j.val;
             }
         }
-        return 0;
+        return sum;
+    }
+    public void populateparent(TreeNode root,TreeNode parent,HashMap<TreeNode,TreeNode> parentmap)
+    {
+        if(root == null)
+        return;
+        
+        parentmap.put(root, parent);
+        
+        populateparent(root.left, root, parentmap);
+        populateparent(root.right, root, parentmap);
+        
+        return;
+    }
+   public void populategrandparent(HashMap<TreeNode,TreeNode> parentmap,HashMap<TreeNode,TreeNode> grandparentmap)
+    {
+        for(TreeNode j : parentmap.keySet())
+        {
+            if(parentmap.get(j)!=null)
+            grandparentmap.put(j,parentmap.get(parentmap.get(j)));
+            else
+            grandparentmap.put(j,null);
+        }
+       return;
     }
 }
