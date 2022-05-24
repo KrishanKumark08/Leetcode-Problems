@@ -60,11 +60,8 @@ class Solution {
             }
             else{
                 parent.right = null;
-            }
-                
-            }
-            
-            
+            }  
+            } 
         }
         return ans;
     }
@@ -73,12 +70,10 @@ class Solution {
         if(root == null){
             return;
         }
-        
         memo.put(root, parent);
         nodeMap.put(root.val, root);
         populateMap(root.left, memo, root, nodeMap);
         populateMap(root.right, memo, root, nodeMap);
-        
     }
     
 }
