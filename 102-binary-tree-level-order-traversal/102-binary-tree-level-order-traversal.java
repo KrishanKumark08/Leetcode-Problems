@@ -26,7 +26,7 @@ class Solution {
         
         while(!queue.isEmpty()){
             
-            int size = queue.size();
+            int size = queue.size(); // It represents the number of nodes present at any Level.
             List<Integer> currentAns = new ArrayList<>();
             
             while(size > 0){
