@@ -15,56 +15,46 @@
  */
 class Solution {
     public List<List<Integer>> verticalTraversal(TreeNode root) {
-        HashMap<Integer,TreeMap<Integer,List<Integer>>> map = new HashMap<>();
+        TreeMap<Integer, TreeMap<Integer, List<Integer>>> memo = new TreeMap<>();
         
-        int val[] = new int[2];
-        val[0] =  10000;
-        val[1] = -10000;
+        populateMapWithColumns(root, 0, 0, memo);
         
-        vertical(root, 0, 0, map, val);
+        List<List<Integer>> ans = new ArrayList<>();
         
-        int min = val[0];
-        int max = val[1];
-        
-        List< List<Integer>> list = new ArrayList<>();
-        
-        for(int i = min;i<=max;i++)
-        {
-            TreeMap<Integer, List<Integer>> map2 = map.get(i);
+        for(int key : memo.keySet()){
+            TreeMap<Integer, List<Integer>> rowMap = memo.get(key);
             List<Integer> list1 = new ArrayList<>();
-            
-            for(int j : map2.keySet())
-            {
-                List<Integer> arr = map2.get(j);
-                
-                Collections.sort(arr);
-                
-                for(int k :arr)
-                list1.add(k);
+            for(int row : rowMap.keySet()){
+                List<Integer> list2 = rowMap.get(row);
+                Collections.sort(list2);
+                for(int ele : list2){
+                    list1.add(ele);
+                }
             }
             
-            list.add(list1); 
+            ans.add(list1);
         }
-        return list;
+        
+        return ans;
+        
     }
-    public void vertical(TreeNode root, int row, int level , HashMap<Integer,TreeMap<Integer ,List<Integer>>> map,int val[])
-    {
-        if(root == null)
+    
+    private void populateMapWithColumns(TreeNode root, int col, int row, TreeMap<Integer, TreeMap<Integer, List<Integer>>> memo){
+        
+        if(root == null){
             return;
+        }
         
-        TreeMap<Integer, List<Integer>> map2 = map.getOrDefault(level, new TreeMap<>());
-         List<Integer> arr = map2.getOrDefault( row, new ArrayList<>());
+        TreeMap<Integer, List<Integer>> rowMap = memo.getOrDefault(col, new TreeMap<>());
+        List<Integer> rowList = rowMap.getOrDefault(row, new ArrayList<>());
         
-        arr.add(root.val);
-        map2.put(row, arr);
-        map.put(level, map2);
+        rowList.add(root.val);
+        rowMap.put(row, rowList);
+        memo.put(col, rowMap);
         
-        val[0] = Math.min(val[0], level);
-        val[1] = Math.max(val[1], level);
+        populateMapWithColumns(root.left, col - 1, row + 1, memo);
+        populateMapWithColumns(root.right, col + 1, row + 1, memo);
         
-        vertical(root.left, row+1, level-1, map, val);
-        vertical(root.right, row+1, level+1, map, val);
-        
-        return;
-}
+    }
+    
 }
