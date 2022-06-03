@@ -15,30 +15,43 @@
  */
 class Solution {
     public List<List<Integer>> levelOrderBottom(TreeNode root) {
-    List<List<Integer>>ans = new ArrayList<>();
-        level(root,ans);
-        Collections.reverse(ans);
-        return ans;
-    }
-    public void level(TreeNode root,List<List<Integer>> ans)
-    {
-        if(root==null)
-            return ;
-        Queue<TreeNode> q=new LinkedList<>();
-        q.add(root);
-        while(q.size()>0)
-        {
-            int l= q.size();
-            List<Integer> arr = new ArrayList<>();
-            while(l>0)
-            {
-                TreeNode cn= q.poll();
-                if(cn.left!=null)q.add(cn.left);
-                if(cn.right!=null)q.add(cn.right);
-                arr.add(cn.val);
-                l--;
-            }
-            ans.add(arr);
+        
+        List<List<Integer>> answer = new ArrayList<>();
+        
+        Queue<TreeNode> queue = new LinkedList<>();
+        
+        if(root == null){
+            return answer;
         }
+        
+        queue.add(root);
+    
+        while(!queue.isEmpty()){
+            
+            int currentSize = queue.size();
+            List<Integer> currentAns = new ArrayList<>();
+            
+            while(currentSize > 0){
+                TreeNode currentNode = queue.remove();
+            currentAns.add(currentNode.val);
+            
+            if(currentNode.left != null){
+                queue.add(currentNode.left);
+            }
+            
+            if(currentNode.right != null){
+                queue.add(currentNode.right);
+            }
+                currentSize--;
+            }
+            
+            answer.add(currentAns);
+            
+        }
+        
+        Collections.reverse(answer);
+        return answer;
+        
+        
     }
 }
