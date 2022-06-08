@@ -37,7 +37,7 @@ class Solution
         long[] res = new long[n];
         
         for(int i = n - 1; i >= 0; i--){
-            while(!stack.isEmpty() && stack.peek() < arr[i]){
+            while(!stack.isEmpty() && stack.peek() <= arr[i]){
                 stack.pop();
             }
             
