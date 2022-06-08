@@ -1,5 +1,5 @@
 class Solution {
-    private int[] nextGreaterElement(int[] heights, int n){
+    private int[] nextSmallerElement(int[] heights, int n){
         Stack<Integer> stack = new Stack<>();
         stack.push(-1);
         int[] ans = new int[n];
@@ -14,7 +14,7 @@ class Solution {
         return ans;
     }
     
-    private int[] prevGreaterElement(int[] heights, int n){
+    private int[] prevSmallerElement(int[] heights, int n){
         Stack<Integer> stack = new Stack<>();
         stack.push(-1);
         int[] ans = new int[n];
@@ -35,10 +35,10 @@ class Solution {
         
         
         int[] next = new int[n];
-        next = nextGreaterElement(heights, n);
+        next = nextSmallerElement(heights, n);
         
         int[] prev = new int[n];
-        prev = prevGreaterElement(heights, n);
+        prev = prevSmallerElement(heights, n);
         
         for(int i = 0; i < n; i++){
             int length = heights[i];
