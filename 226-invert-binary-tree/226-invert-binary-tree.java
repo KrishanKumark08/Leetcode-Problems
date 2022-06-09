@@ -15,32 +15,39 @@
  */
 class Solution {
     public TreeNode invertTree(TreeNode root) {
-        if(root == null){
+        if(root==null)
             return root;
-        }
-        
-        TreeNode newRoot = new TreeNode(root.val);
-        
-        invertBinaryTree(root, newRoot);
-        
-        return newRoot;
+        if(root.right==null&&root.left==null)
+            return root;
+        invert(root);
+        return root;
     }
-    
-    private void invertBinaryTree(TreeNode root, TreeNode newRoot){
-        if(root == null){
+    public void invert(TreeNode root)
+    {
+        if(root==null)
+            return ;
+        if(root.right==null&&root.left==null)
+            return ;
+        if(root.right==null)
+        {
+            root.right=root.left;
+            root.left=null;
+             invertTree(root.right);
+            return;
+        }
+        if(root.left==null)
+        {
+             root.left=root.right;
+             root.right=null;
+              invertTree(root.left);
             return;
         }
         
-        if(root.left != null){
-            newRoot.right = new TreeNode(root.left.val);
-            invertBinaryTree(root.left, newRoot.right);
-        }
-        
-        if(root.right != null){
-            newRoot.left = new TreeNode(root.right.val);
-            invertBinaryTree(root.right, newRoot.left);
-        }
-        
+        TreeNode temp=root.left;
+        root.left=root.right;
+        root.right=temp;
+         invertTree(root.left);
+       invertTree(root.right);
+        return ;
     }
-    
 }
