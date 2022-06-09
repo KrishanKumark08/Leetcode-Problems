@@ -68,7 +68,6 @@ class Compute {
             
             if(flag && queue.size() == k){
                 queue.poll();
-                //System.out.println("Hello "+ele+" "+queue.size()+" "+queue.peek());
             }
             
             ans[i] = ele;
