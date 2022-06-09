@@ -56,17 +56,16 @@ class Compute {
         for(int i = 0; i <= n - k; i++){
             queue.add(a[i + k - 1]);
             long ele = 0;
-            boolean flag = true;
             while(!queue.isEmpty() && queue.peek() > 0){
                 queue.poll();
-                flag = false;
             }
             
             if(!queue.isEmpty()){
                 ele = queue.peek();
             }
             
-            if(flag && queue.size() == k){
+            if(queue.size() == k){ // Queue if full of windows size we have to pop 1 element
+                                    // to input the coming element of the next window
                 queue.poll();
             }
             
