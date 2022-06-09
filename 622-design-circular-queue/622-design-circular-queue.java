@@ -10,10 +10,9 @@ class MyCircularQueue {
     
     public boolean enQueue(int value) {
         if(isFull()){
-            //System.out.println("Front = "+front+" Rear = "+rear + " Value = "+value+" Size = "+size);
-            return false; // Check if Queue is Full
+            return false;
         }
-        else if(front == -1){ // Check if Queue if Empty
+        else if(isEmpty()){
             front = 0;
             rear = 0;
         }
@@ -22,14 +21,12 @@ class MyCircularQueue {
         }
         else // Normal Flow
             rear++;
-        //System.out.println("Front = "+front+" Rear = "+rear + " Value = "+value+" Size = "+size);
         arr[rear] = value;
         return true;
-        
     }
     
     public boolean deQueue() {
-        if(front == -1){ // To Check if Queue is Empty
+        if(isEmpty()){
             return false;
         }
         
@@ -47,14 +44,14 @@ class MyCircularQueue {
     }
     
     public int Front() {
-        if(front == -1){ // To Check if Queue is Empty
+        if(isEmpty()){ // To Check if Queue is Empty
             return -1;
         }
         return arr[front];
     }
     
     public int Rear() {
-        if(rear == -1){ // To Check if Queue is Empty
+        if(isEmpty()){ // To Check if Queue is Empty
             return -1;
         }
         return arr[rear];
