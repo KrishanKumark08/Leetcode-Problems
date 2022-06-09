@@ -65,7 +65,7 @@ class MyCircularQueue {
     }
     
     public boolean isFull() {
-        return front == 0 && rear == size - 1 || front != 0 && size != 1 && rear == (front - 1)%(size - 1);
+        return front == 0 && rear == size - 1 || front != 0 && size != 1 && rear == (front - 1)%(size - 1); // We are checking front != 0 because in modulus -> Modulus of any negative value 0 and it was failing for 1 test case // And we are checking for size != 1 because otherwise size - 1 will case exception 
     }
 }
 
