@@ -36,7 +36,7 @@ class Solution {
                 end = mid - 1;
             }
         }
-        int ans[] = new int[]{first, last};
+        int ans[] = {first, last};
         
         return ans;
     }
