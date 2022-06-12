@@ -1,12 +1,21 @@
 class Solution {
-  public int search(int[] nums, int target) {
-    int pivot, left = 0, right = nums.length - 1;
-    while (left <= right) {
-      pivot = left + (right - left) / 2;
-      if (nums[pivot] == target) return pivot;
-      if (target < nums[pivot]) right = pivot - 1;
-      else left = pivot + 1;
+    public int search(int[] nums, int target) {
+        int start = 0;
+        int end = nums.length - 1;
+        
+        while(start <= end){
+            int mid = start + (end - start)/2;
+            if(nums[mid] == target){
+                return mid;
+            }
+            
+            if(nums[mid] < target){
+                start = mid + 1;
+            }
+            else{
+                end = mid - 1;
+            }
+        }
+        return -1;
     }
-    return -1;
-  }
 }
