@@ -14,7 +14,7 @@ class Solution {
                 return nums[mid + 1];
             }
             
-            if(nums[mid] < nums[mid - 1] && nums[mid] < nums[mid + 1]){
+            if(nums[mid] < nums[mid - 1] /*&& nums[mid] < nums[mid + 1]*/){
                 return nums[mid];
             }
             
