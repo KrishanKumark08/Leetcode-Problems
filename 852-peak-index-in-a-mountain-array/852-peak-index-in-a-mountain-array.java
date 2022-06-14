@@ -10,7 +10,8 @@ class Solution {
                 start = mid + 1;
             }
             else
-                end = mid;
+                end = mid; // Here Whether we are present on mid or on the decresing side of mountain -> we will move towards the mid of the array i.e towards Peak Index;
+            // If we do mid - 1 then if we were present on mid then we might lose peak index
         }
         return end;
     }
