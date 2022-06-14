@@ -44,7 +44,9 @@ class Solution
         
         int end = (int)totalSum;
         
-        int answer = -1;
+        int answer = -1; 
+        //We can use start as well as end as long variables as due to large values of A
+        // totalSum might overflow in integer.
         
         while(start <= end){
             int mid = start + (end - start)/2;
