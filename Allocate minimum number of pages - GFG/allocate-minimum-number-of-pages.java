@@ -47,6 +47,7 @@ class Solution
         int answer = -1; 
         //We can use start as well as end as long variables as due to large values of A
         // totalSum might overflow in integer.
+        // With DP it is MCM Variation.
         
         while(start <= end){
             int mid = start + (end - start)/2;
