@@ -10,7 +10,7 @@ class Solution {
             int mid = start + (end - start)/2;
             if(nums[mid] == target){
                 first = mid;
-                end = mid - 1;
+                end = mid - 1; // We will keep on looking for in left for first occurence
             }
             else if(nums[mid] < target){
                 start = mid + 1;
@@ -27,7 +27,7 @@ class Solution {
             int mid = start + (end - start)/2;
             if(nums[mid] == target){
                 last = mid;
-                start = mid + 1;
+                start = mid + 1;// We will keep on looking for in right for first occurence
             }
             else if(nums[mid] < target){
                 start = mid + 1;
