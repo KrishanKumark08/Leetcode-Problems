@@ -10,7 +10,8 @@ class Solution {
         
         while(start <= end){
             int mid = start + (end - start)/2;
-            long square = (long)mid*(long)mid;
+            long square = (long) mid * (long) mid;
+            //long square = mid*mid; It did not got submitted due to this because i have to convert both of them to long before to get the result in long
             if(square == x){
                 return mid;
             }
