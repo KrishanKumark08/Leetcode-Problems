@@ -34,7 +34,8 @@ class Solution
 {
 	int  select(int arr[], int i)
 	{
-        // code here such that selectionSort() sorts arr[]
+	    // This Function will be for passes that will calculate the smallest Element in given
+	    // unsorted array
         int smallestIndex = i;
         int smallestElement = arr[i];
         int n = arr.length;
@@ -54,6 +55,7 @@ class Solution
 	
 	void selectionSort(int arr[], int n)
 	{
+	    // Loop will run till n - 1 as last element will automatically be sorted
 	    for(int i = 0; i < n - 1; i++){
 	        select(arr, i);
 	    }
