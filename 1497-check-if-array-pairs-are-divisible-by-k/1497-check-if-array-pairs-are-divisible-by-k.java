@@ -17,6 +17,7 @@ class Solution {
                 return false;
             }
             else if(!memo.get(key).equals(memo.get(k - key))){
+                // memo.get(key) != memo.get(k - key) Gives the wrong answer
                 return false;
             } 
         }
