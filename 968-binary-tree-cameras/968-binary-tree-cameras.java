@@ -14,7 +14,7 @@
  * }
  */
 class Solution {
-     int res = 0;
+    int res = 0;
     public int minCameraCover(TreeNode root) {
         return (dfs(root) < 1 ? 1 : 0) + res;
     }
