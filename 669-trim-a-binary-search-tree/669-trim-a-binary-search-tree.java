@@ -15,51 +15,66 @@
  */
 class Solution {
     public TreeNode trimBST(TreeNode root, int low, int high) {
-        List<Integer> list = new ArrayList<>();
-        
-        preOrder(root, list, low, high);
-        
-        int[] preorder = new int[list.size()];
-        
-        for(int i = 0; i < list.size(); i++){
-            preorder[i] = list.get(i);
+        while(root!=null && (root.val<low || root.val>high ))
+              {
+            if(root.val<low)
+            {
+           // System.out.print("hey");
+            TreeNode temp = root;
+            root = root.right;
+            temp.right=null;
+            temp.left=null;
+            temp = null;
+            }
+        else if(root.val>high)
+        {
+            TreeNode temp = root;
+            root = root.left;
+            temp.right=null;
+            temp.left=null;
+             temp = null;
         }
-        
-        return bstFromPreorder(preorder);
-        
+              }
+       // System.out.println(root.val);
+         trimbst(root,low,high,null);
+        return root;
     }
-    
-    public void preOrder(TreeNode root, List<Integer> list, int low, int high){
-        if(root == null){
+    private void trimbst(TreeNode root, int low, int high,TreeNode parent)
+    {
+        if(root==null)
+            return;
+        if(root.val<low)
+        {
+            System.out.print("hey");
+            TreeNode temp = root;
+            root = root.right;
+            if(parent!=null && temp==parent.left)
+                parent.left = root;
+            else if(parent!=null && temp == parent.right)
+                parent.right = root;
+            temp.right=null;
+            temp.left=null;
+            temp = null;
+             trimbst(root,low,high,parent);
             return;
         }
-        
-        if(root.val >= low && root.val <= high)
-        list.add(root.val);
-        preOrder(root.left, list, low, high);
-        preOrder(root.right, list, low, high);
-        
-    }
-    
-    public TreeNode bstFromPreorder(int[] preorder) {
-        int[] preIndex = {0};
-        return buildTree(preorder, preIndex, 1001);
-    }
-    
-    private TreeNode buildTree(int[] preorder, int[] preIndex, int boundVal){
-        
-        if(preIndex[0] >= preorder.length || preorder[preIndex[0]] >= boundVal){
-            return null;
+        else if(root.val>high)
+        {
+            TreeNode temp = root;
+            root = root.left;
+            if(parent!=null && temp==parent.left)
+                parent.left = root;
+            else if(parent!=null && temp == parent.right)
+                parent.right = root;
+            temp.right=null;
+            temp.left=null;
+             temp = null;
+            trimbst(root,low,high,parent);
+            return;
+           
         }
-        
-        TreeNode root = new TreeNode(preorder[preIndex[0]]);
-        preIndex[0] += 1;
-        
-        root.left = buildTree(preorder, preIndex, root.val);
-        root.right = buildTree(preorder, preIndex, boundVal);
-        
-        return root;
-        
+       trimbst(root.left,low,high,root);
+        trimbst(root.right,low,high,root);
+            return;
     }
-    
 }
