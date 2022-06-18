@@ -39,7 +39,7 @@ class Solution {
                 answer = Math.max(answer, acquire - left + 1);
             }
             else{
-                while(memo.size() > k){
+                while(left <= acquire && memo.size() > k){
                     char leftMostChar = s.charAt(left);
                     memo.put(leftMostChar, memo.get(leftMostChar) - 1);
                     
@@ -53,6 +53,6 @@ class Solution {
         }
         
         return answer;
-        
+    
     }
 }
