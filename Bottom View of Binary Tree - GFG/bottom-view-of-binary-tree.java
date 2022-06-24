@@ -142,7 +142,7 @@ class Solution
                Node currentNode = currentPair.node;
                int currentHd = currentPair.hd;
                
-                   memo.put(currentHd, currentNode.data);
+                memo.put(currentHd, currentNode.data);
                
                if(currentNode.left != null){
                    queue.add(new Pair(currentNode.left, currentHd - 1));
