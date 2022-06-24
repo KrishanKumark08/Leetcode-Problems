@@ -28,6 +28,7 @@ public void generateTotalWays(int[] candidates, int currentIndex, int target, Ha
             
         }
     
+    // This extra Condition is added here so as to optimize the code
         while(currentIndex + 1 < candidates.length && candidates[currentIndex]==candidates[currentIndex + 1])
             currentIndex++; 
         generateTotalWays(candidates, currentIndex + 1, target, combinations, currentAns);
