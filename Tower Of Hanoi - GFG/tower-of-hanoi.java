@@ -37,6 +37,7 @@ class Recursion {
 class Hanoi {
     public long toh(int N, int from, int to, int aux) {
         long[] ans = new long[1];
+        ans[0] = 1;
         traverseToh(N, from, to, aux, ans);
         return ans[0];
     }
@@ -44,13 +45,13 @@ class Hanoi {
     private void traverseToh(int n, int from, int to, int aux, long[] ans){
         if(n == 1){
             System.out.println("move disk "+n+" from rod "+from+" to rod "+to);
-            ans[0]++;
             return;
         }
         
-        traverseToh(n - 1, from, aux, to, ans);
         ans[0]++;
+        traverseToh(n - 1, from, aux, to, ans);
         System.out.println("move disk "+n+" from rod "+from+" to rod "+to);
+        ans[0]++;
         traverseToh(n - 1, aux, to, from, ans);
         return;
     } 
