@@ -10,76 +10,64 @@
  */
 class Solution {
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-        ListNode dummyNode = new ListNode(-1);
+        int carry = 0;
+        ListNode dummyNode = new ListNode(-101);
         ListNode head = dummyNode;
         
-        if(l1 == null){
-            return l2;
-        }
-        
-        if(l2 == null){
-            return l1;
-        }
-        
-        int carry = 0;
-        
-        int firstValue, secondValue, total=0;
-        
-        
         while(l1 != null && l2 != null){
-            firstValue = l1.val;
-            secondValue = l2.val;
-            
-            total = firstValue + secondValue + carry;
-            
-                carry = total/10;
-                total %= 10;
-           
-            ListNode newNode = new ListNode(total);
+            int sum = l1.val + l2.val + carry;
+            if(sum > 9){
+                sum = sum % 10;
+                carry = 1;
+            }
+            else{
+                carry = 0;
+            }
+            ListNode newNode = new ListNode(sum);
             dummyNode.next = newNode;
-            
-            dummyNode = newNode;
+            dummyNode = dummyNode.next;
             l1 = l1.next;
             l2 = l2.next;
-            
         }
         
         while(l1 != null){
-            total = l1.val + carry;
-                
-               
-                carry = total/10;
-                total %= 10;
-           
             
-            ListNode newNode = new ListNode(total);
+            int sum = l1.val + carry;
+            if(sum > 9){
+                sum = sum % 10;
+                carry = 1;
+            }
+            else{
+                carry = 0;
+            }
+            ListNode newNode = new ListNode(sum);
             dummyNode.next = newNode;
-            
-            dummyNode = newNode;
-            l1 = l1.next;    
+            dummyNode = dummyNode.next;
+            l1 = l1.next;
         }
         
         while(l2 != null){
-            total = l2.val + carry;
-                
-                carry = total/10;
-                total %= 10;
             
-            
-            ListNode newNode = new ListNode(total);
+            int sum = l2.val + carry;
+            if(sum > 9){
+                sum = sum % 10;
+                carry = 1;
+            }
+            else{
+                carry = 0;
+            }
+            ListNode newNode = new ListNode(sum);
             dummyNode.next = newNode;
-            
-            dummyNode = newNode;
-            l2 = l2.next;    
+            dummyNode = dummyNode.next;
+            l2 = l2.next;
         }
         
-        if(carry != 0){
+        if(carry == 1){
             ListNode newNode = new ListNode(1);
             dummyNode.next = newNode;
-            
+            dummyNode = dummyNode.next;
         }
         
         return head.next;
-        
     }
 }
