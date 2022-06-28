@@ -15,17 +15,13 @@ class Solution {
         }
         ListNode curr = head;
         ListNode prev = null;
-        ListNode nextNode = head.next;
-       // System.out.println(curr.val + " Hello " + nextNode.val);
         
-        while(nextNode!= null){
-            //System.out.println(curr.val + " " + nextNode.val);
+        while(curr != null){
+            ListNode nextNode = curr.next;
             curr.next = prev;
             prev = curr;
             curr = nextNode;
-            nextNode = nextNode.next;
         }
-        curr.next = prev;
-        return curr;
+        return prev;
     }
 }
