@@ -21,30 +21,26 @@ class Solution {
         ListNode head = dummyNode;
         while(list1 != null && list2!= null){
             if(list1.val <= list2.val){
-                ListNode newNode = new ListNode(list1.val);
+                dummyNode.next = list1;
                 list1 = list1.next;
-                dummyNode.next = newNode;
                 dummyNode = dummyNode.next;
             }
             else{
-                ListNode newNode = new ListNode(list2.val);
+                dummyNode.next = list2;
                 list2 = list2.next;
-                dummyNode.next = newNode;
                 dummyNode = dummyNode.next;
             }
         }
         
         while(list1 != null){
-            ListNode newNode = new ListNode(list1.val);
+            dummyNode.next = list1;
             list1 = list1.next;
-            dummyNode.next = newNode;
             dummyNode = dummyNode.next;
         }
         
         while(list2 != null){
-            ListNode newNode = new ListNode(list2.val);
+            dummyNode.next = list2;
             list2 = list2.next;
-            dummyNode.next = newNode;
             dummyNode = dummyNode.next;
         }
     
