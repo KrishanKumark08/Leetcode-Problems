@@ -18,7 +18,7 @@ public class Solution {
             slow = slow.next;
             fast = fast.next.next;
             if(slow == fast){
-                ListNode newNode = head; // Floy Algo / Tortoise and Hare Algo
+                ListNode newNode = head; // Floyd Algo / Tortoise and Hare Algo
                 while(newNode != slow){
                     newNode = newNode.next;
                     slow = slow.next;
