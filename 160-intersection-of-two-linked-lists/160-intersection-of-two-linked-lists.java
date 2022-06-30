@@ -10,32 +10,46 @@
  * }
  */
 public class Solution {
-    public ListNode getIntersectionNode(ListNode a, ListNode b) {
-        if(a==null||b==null)return null;
-        if(a==b)return a;
-        if(a.next==null&&b.next==null)return null;
-        if(a.next==b.next)return a.next;
-        ListNode headA=a;
-        ListNode c=null;
-        int flag=0;
-        while(headA!=null)
-        {
-            ListNode headB=b;
-            while(headB!=null)
-            {
-                if(headA==headB)
-            {
-                c=headA;
-                    flag=1;
-                break;
-            }
-            headB=headB.next;
-            }
-            headA=headA.next;
-            if(flag==1)break;
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        
+        int countA = 0;
+        int countB = 0;
+        
+        ListNode currA = headA;
+        while(currA != null){
+            countA++;
+            currA = currA.next;
         }
-        if(c==null)
-            return null;
-        return c;
+        
+        ListNode currB = headB;
+        while(currB != null){
+            countB++;
+            currB = currB.next;
+        }
+        
+        currA = headA;
+        currB = headB;
+        
+        if(countA > countB){
+            while(countA > countB){
+                currA = currA.next;
+                countA--;
+            }
+        }
+        else if(countB > countA){
+            while(countB > countA){
+                currB = currB.next;
+                countB--;
+            }
+        }
+        
+        while(currA != null && currB != null){
+            if(currA == currB){
+                return currA;
+            }
+            currA = currA.next;
+            currB = currB.next;
+        }
+        return null;
     }
 }
