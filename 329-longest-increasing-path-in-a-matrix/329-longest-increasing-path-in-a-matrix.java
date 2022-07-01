@@ -1,30 +1,43 @@
 class Solution {
-    public static final int[][] dirs = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
-
-public int longestIncreasingPath(int[][] matrix) {
-    if(matrix.length == 0) return 0;
-    int m = matrix.length, n = matrix[0].length;
-    int[][] cache = new int[m][n];
-    int max = 1;
-    for(int i = 0; i < m; i++) {
-        for(int j = 0; j < n; j++) {
-            int len = dfs(matrix, i, j, m, n, cache);
-            max = Math.max(max, len);
+    public int longestIncreasingPath(int[][] matrix) {
+        int max = 0;
+        HashMap<String, Integer> memo = new HashMap<>();
+        for(int i = 0;i < matrix.length; i++){
+            for(int j = 0;j<matrix[0].length; j++){
+                max = Math.max(max, longest(matrix, i, j, -1, memo));
+            }
         }
-    }   
-    return max;
-}
-
-public int dfs(int[][] matrix, int i, int j, int m, int n, int[][] cache) {
-    if(cache[i][j] != 0) return cache[i][j];
-    int max = 1;
-    for(int[] dir: dirs) {
-        int x = i + dir[0], y = j + dir[1];
-        if(x < 0 || x >= m || y < 0 || y >= n || matrix[x][y] <= matrix[i][j]) continue;
-        int len = 1 + dfs(matrix, x, y, m, n, cache);
-        max = Math.max(max, len);
+        if(max ==0){
+            return 1;
+        }
+        return max;
     }
-    cache[i][j] = max;
-    return max;
-}
+    
+    private int longest(int[][] matrix, int currRow, int currCol, int prev, HashMap<String, Integer> memo){
+        if(currRow < 0 || currRow >= matrix.length || currCol < 0 || currCol >= matrix[0].length){
+            return -200;
+        }
+        
+        String currKey = currRow + "_" + currCol + "_" + prev;
+        if(memo.containsKey(currKey)){
+            return memo.get(currKey);
+        }
+        
+        int up = 0;
+        int right = 0;
+        int down = 0;
+        int left = 0;
+        
+        if(matrix[currRow][currCol] > prev){
+            up = 1 + longest(matrix, currRow - 1, currCol, matrix[currRow][currCol], memo);
+            right = 1 + longest(matrix, currRow, currCol + 1, matrix[currRow][currCol], memo);
+            down = 1 + longest(matrix, currRow + 1, currCol, matrix[currRow][currCol], memo);
+            left = 1 + longest(matrix, currRow, currCol - 1, matrix[currRow][currCol], memo);
+        }
+        
+        memo.put(currKey, Math.max(Math.max(up, right), Math.max(down, left)));
+        return memo.get(currKey);
+        
+    }
+    
 }
