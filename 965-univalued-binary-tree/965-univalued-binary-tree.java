@@ -18,13 +18,11 @@ class Solution {
         return isUnivalued(root, root.val);
     }
     
-    private boolean isUnivalued(TreeNode root, int value){
+    private boolean isUnivalued(TreeNode root, int val){
         if(root == null){
             return true;
         }
         
-        return root.val == value && isUnivalued(root.left, value) && isUnivalued(root.right, value);
-        
+        return root.val == val && isUnivalued(root.left, val) && isUnivalued(root.right, val);
     }
-    
 }
