@@ -15,27 +15,24 @@
  */
 class Solution {
     public List<Integer> rightSideView(TreeNode root) {
-        List<Integer> list= new ArrayList<>();
-        if(root==null)
-        {
-            return list;
-        }
-       // list.add(root.val);
-        rightview(root,list,new HashSet<>(),0);
-        return list;
+        List<Integer> ans = new ArrayList<>();
+        solveRightView(root, ans, new HashSet<>(), 0);
+        return ans;
     }
-    public void rightview(TreeNode root,List<Integer> list,HashSet<Integer>set,int level)
-    {
-        if(root==null)
+    
+    private void solveRightView(TreeNode root, List<Integer> ans, HashSet<Integer> set, int level){
+        if(root == null){
             return;
-       if(!set.contains(level))
-       {
-           set.add(level);
-           list.add(root.val);
-       }
+        }
         
-         rightview(root.right,list,set,level+1);
-         rightview(root.left,list,set,level+1);
-        return;
+        if(!set.contains(level)){
+            ans.add(root.val);
+            set.add(level);
+        }
+        
+        solveRightView(root.right, ans, set, level + 1);
+        solveRightView(root.left, ans, set, level + 1);
+        
+        
     }
 }
