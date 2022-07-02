@@ -4,40 +4,35 @@ class Solution {
         List<List<Integer>> res = new ArrayList<>();
         
         int n = nums.length;
+        
         for(int i = 0; i < n; i++){
+            if(i != 0 && nums[i] == nums[i - 1]) continue;
             for(int j = i + 1; j < n; j++){
-                long target_2 = (long)target - nums[i] - nums[j];
-                
+                if(j != i + 1 && nums[j] == nums[j - 1]) continue;
                 int front = j + 1;
                 int back = n - 1;
                 
                 while(front < back){
-                    long twoSum = nums[front] + nums[back];
-                    
-                    if(twoSum < target_2)
-                        front++;
-                    else if(twoSum > target_2)
+                    long sum = (long)nums[i] + nums[j] + nums[front] + nums[back];
+                    if(sum > target){
                         back--;
+                    }
+                    else if(sum < target){
+                        front++;
+                    }
                     else{
-                        
-                        List<Integer> quad = new ArrayList<>();
-                        quad.add(nums[i]);
-                        quad.add(nums[j]);
-                        quad.add(nums[front]);
-                        quad.add(nums[back]);
+                        List<Integer> quad = new ArrayList<>(Arrays.asList(nums[i], nums[j], nums[front], nums[back]));
                         res.add(quad);
                         
-                        while(front < back && nums[front] == quad.get(2))
-                            front++;
-                            
-                        while(front < back && nums[back] == quad.get(3))
-                            back--;
+                        front++;
+                        back--;
+                        while(front < back && nums[front] == nums[front - 1]) front++;
+                        while(front < back && nums[back] == nums[back + 1]) back--;
+                        
                     }
-                    
                 }
-                while(j + 1 < n && nums[j + 1] == nums[j]) j++;
+                
             }
-            while(i + 1 < n && nums[i + 1] == nums[i]) i++;
         }
         return res;
     }
