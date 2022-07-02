@@ -15,17 +15,17 @@
  */
 class Solution {
     public int sumOfLeftLeaves(TreeNode root) {
-        return sumleftleaves(root,false);
+        return leftLeavesSum(root, false);
     }
-    private int sumleftleaves(TreeNode root,boolean flag)
-    {
-        if(root==null)
+    
+    private int leftLeavesSum(TreeNode root, boolean isLeft){
+        if(root == null){
             return 0;
-        if(root.left==null&&root.right==null&&flag==true)
-        {   
-            
+        }
+        
+        if(root.left == null && root.right == null && isLeft){
             return root.val;
         }
-        return sumleftleaves(root.left,true)+sumleftleaves(root.right,false);
+        return leftLeavesSum(root.left, true) + leftLeavesSum(root.right, false);
     }
 }
