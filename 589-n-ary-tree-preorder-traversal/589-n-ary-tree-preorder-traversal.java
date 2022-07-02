@@ -19,19 +19,22 @@ class Node {
 
 class Solution {
     public List<Integer> preorder(Node root) {
-        List<Integer> ans = new ArrayList<>();
-        preorder(root, ans);
-        return ans;
-    }
-    
-    private void preorder(Node root, List<Integer> ans){
-        if(root == null){
-            return;
-        }
+       List<Integer> ans = new ArrayList<>();
+        Stack<Node> stack = new Stack<>();
+        if(root != null)
+            stack.add(root);
         
-        ans.add(root.val);
-        for(Node child:root.children){
-            preorder(child, ans);
+        while(!stack.isEmpty()){
+            Node currentNode = stack.pop();
+            ans.add(currentNode.val);
+            
+            List<Node> child = currentNode.children;
+            Collections.reverse(child);
+            
+            for(Node c: child){
+                stack.push(c);
+            }
         }
+        return ans;
     }
 }
