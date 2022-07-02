@@ -18,36 +18,26 @@ class Solution {
         List<Integer> list1 = new ArrayList<>();
         List<Integer> list2 = new ArrayList<>();
         
-        leafValues(root1, list1);
-        leafValues(root2, list2);
+        calculateLeafValues(root1, list1);
+        calculateLeafValues(root2, list2);
         
-        if(list1.size() != list2.size()){
-            return false;
-        }
-        
-        for(int i = 0; i < list1.size(); i++){
-            if(list1.get(i) != list2.get(i)){
-                return false;
-            }
-        }
-        
-        return true;
+        return list1.equals(list2);
         
     }
     
-    private void leafValues(TreeNode root, List<Integer> list){
-        
-        if(root == null){
-            return;
-        }
-        
+    private void calculateLeafValues(TreeNode root, List<Integer> list){
         if(root.left == null && root.right == null){
             list.add(root.val);
             return;
         }
         
-        leafValues(root.left, list);
-        leafValues(root.right, list);
+        if(root.left != null){
+            calculateLeafValues(root.left, list);
+        }
+
+        if(root.right != null){
+            calculateLeafValues(root.right, list);
+        }
         
     }
     
