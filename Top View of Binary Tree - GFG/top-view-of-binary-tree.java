@@ -123,56 +123,46 @@ class Node{
 }
 */
 class Pair{
-    Node node;
-    int hd;
-    Pair(Node node, int hd){
-        this.node = node;
-        this.hd = hd;
+    int value;
+    int depth;
+    Pair(int value, int depth){
+        this.value = value;
+        this.depth = depth;
     }
 }
 class Solution
 {
-    //Function to return a list of nodes visible from the top view 
-    //from left to right in Binary Tree.
     static ArrayList<Integer> topView(Node root)
     {
-       ArrayList<Integer> answer = new ArrayList<>();
-       
-       Queue<Pair> queue = new LinkedList<>();
-       TreeMap<Integer, Integer> memo = new TreeMap<>();
-       queue.add(new Pair(root, 0));
-       
-       while(queue.size() > 0){
-           int currentSize = queue.size();
-           while(currentSize > 0){
-               Pair currentPair = queue.remove();
-               Node currentNode = currentPair.node;
-               int currentHd = currentPair.hd;
-               
-               if(!memo.containsKey(currentHd)){
-                   memo.put(currentHd, currentNode.data);
-               }
-               
-               if(currentNode.left != null){
-                   queue.add(new Pair(currentNode.left, currentHd - 1));
-               }
-               
-               if(currentNode.right != null){
-                   queue.add(new Pair(currentNode.right, currentHd + 1));
-               }
-               
-               currentSize--;
-           }
-       }
-       
-       for(int key:memo.keySet()){
-           answer.add(memo.get(key));
-       }
-       
-       return answer;
-       
+        ArrayList<Integer> ans = new ArrayList<>();
+        TreeMap<Integer, Pair> memo = new TreeMap<>();
+        processTopView(root, 0, 0, ans, memo);
+        
+        for(int key:memo.keySet()){
+            ans.add(memo.get(key).value);
+        }
+        
+        return ans;
     }
+    
+    private static void processTopView(Node root, int width, int depth, ArrayList<Integer> ans, TreeMap<Integer, Pair> visited){
+        if(root == null){
+            return;
+        }
+        
+        if(!visited.containsKey(width)){
+            visited.put(width, new Pair(root.data, depth));
+        }
+        else{
+            Pair check = visited.get(width);
+            if(check.depth > depth){
+                visited.put(width, new Pair(root.data, depth));
+            }
+        }
+        
+        processTopView(root.left, width - 1, depth + 1, ans, visited);
+        processTopView(root.right, width + 1, depth + 1, ans, visited);
+        
+    }
+    
 }
-
-
-
