@@ -9,35 +9,44 @@
  */
 class Solution {
     public List<Integer> distanceK(TreeNode root, TreeNode target, int k) {
-        HashMap<TreeNode,TreeNode> parentmap = new HashMap<>();
-        parentnodes(root,null,parentmap);
-        List<Integer> answer = new ArrayList<>();
-        knodes(target,k,answer,new HashSet<>(),parentmap);
-        return answer;
+        List<Integer> ans = new ArrayList<>();
+        
+        HashMap<TreeNode, TreeNode> parents = new HashMap<>();
+        calculateChildParent(root, parents, null);
+        nodesAtDistanceK(target, k, ans, parents, new HashSet<TreeNode>());
+        
+        return ans;
+        
     }
-    private void parentnodes(TreeNode root,TreeNode parent,HashMap<TreeNode,TreeNode> parentmap)
-    {
-        if(root==null)
+    
+    private void calculateChildParent(TreeNode root, HashMap<TreeNode, TreeNode> parents, TreeNode parent){
+        if(root == null){
             return;
-        parentmap.put(root,parent);
-        parentnodes(root.left,root,parentmap);
-        parentnodes(root.right,root,parentmap);
-        return;
-    }
-    private void knodes(TreeNode root,int k,List<Integer> answer,HashSet<Integer>visited,HashMap<TreeNode,TreeNode> parentmap)
-    {
-        if(root==null || k<0 ||visited.contains(root.val))
-            return;
-         visited.add(root.val);
-        if(k==0)
-        {
-                answer.add(root.val);
-                return;
         }
-        visited.add(root.val);
-        knodes(root.left,k-1,answer,visited,parentmap);
-        knodes(root.right,k-1,answer,visited,parentmap);
-        knodes(parentmap.get(root),k-1,answer,visited,parentmap);
+        
+        parents.put(root, parent);
+        calculateChildParent(root.left, parents, root);
+        calculateChildParent(root.right, parents, root);
         return;
     }
+    
+    private void nodesAtDistanceK(TreeNode root, int k, List<Integer> ans, HashMap<TreeNode, TreeNode> parents, HashSet<TreeNode> visited){
+        if(root == null || visited.contains(root)){
+            return;
+        }
+        
+        if(k == 0){
+            ans.add(root.val);
+            return;
+        }
+        
+        visited.add(root);
+        nodesAtDistanceK(root.left, k - 1, ans, parents, visited);
+        nodesAtDistanceK(root.right, k - 1, ans, parents, visited);
+        nodesAtDistanceK(parents.get(root), k - 1, ans, parents, visited);
+        visited.remove(root);
+        return;
+        
+    }
+    
 }
