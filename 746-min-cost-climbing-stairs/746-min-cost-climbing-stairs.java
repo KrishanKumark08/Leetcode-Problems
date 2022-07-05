@@ -1,6 +1,7 @@
 class Solution {
     public int minCostClimbingStairs(int[] cost) {
-        return Math.min(minCost(cost,0,new HashMap<Integer,Integer>()),minCost(cost,1,new HashMap<Integer,Integer>()));
+        HashMap<Integer, Integer> memo = new HashMap<>();
+        return Math.min(minCost(cost,0,memo), memo.get(1));
     }
     public int minCost(int[] cost,int currentIndex,HashMap<Integer,Integer> memo)
     {
