@@ -1,40 +1,26 @@
 class Solution {
-    public int findTargetSumWays(int[] arr, int target) {
-        
-        int n = arr.length;
-        
-        int sum = 0;
-        for(int i:arr){
-            sum += i;
+    public int findTargetSumWays(int[] nums, int target) {
+        return totalWays(nums, target, 0,new HashMap<String,Integer>());
+    }
+    public int totalWays(int[] nums, int target, int currentIndex, HashMap<String,Integer> memo){
+        if(currentIndex >= nums.length){
+            if(target!=0)
+                return 0;
+            else
+                return 1;
         }
         
-        if(sum < Math.abs(target) || (sum+target)%2!=0) return 0;
+        String currentKey = Integer.toString(currentIndex) + "_" + Integer.toString(target);
         
-        sum = ( sum + target ) / 2;
-    
-        int[][] dp = new int[n + 1][sum + 1];
+        if(memo.containsKey(currentKey))
+            return memo.get(currentKey);
         
-        for(int j = 0; j < sum + 1; j++){
-            dp[n][j] = 0;
-        }
+        int posSign = totalWays(nums, target - nums[currentIndex], currentIndex + 1, memo);
         
-        for(int i = n; i >=0 ; i--){
-            dp[i][0] = 1;
-        }
+        int negSign = totalWays(nums, target + nums[currentIndex], currentIndex + 1, memo);
         
-        for(int i = n - 1; i >= 0; i--){
-            for(int j = 0;j < sum + 1; j++){
-                
-                if(j >= arr[i]){
-                    dp[i][j] = dp[i + 1][j - arr[i]] + dp[i + 1][j]; 
-                }
-                else{
-                    dp[i][j] = dp[i + 1][j];
-                }
-            }
-        }
+        memo.put(currentKey,posSign + negSign);
         
-        return dp[0][sum];
-        
+        return memo.get(currentKey);
     }
 }
