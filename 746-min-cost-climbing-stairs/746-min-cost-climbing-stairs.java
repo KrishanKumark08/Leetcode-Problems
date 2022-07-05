@@ -4,8 +4,11 @@ class Solution {
     }
     public int minCost(int[] cost,int currentIndex,HashMap<Integer,Integer> memo)
     {
-        if(currentIndex >= cost.length)
+        if(currentIndex == cost.length)
             return 0;
+        
+        if(currentIndex > cost.length)
+            return 1000;
         
         int currentKey = currentIndex;
         
