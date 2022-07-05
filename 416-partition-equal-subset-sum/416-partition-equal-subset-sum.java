@@ -1,8 +1,7 @@
 class Solution {
-    public boolean canPartition(int[] arr) {
-        int n = arr.length;
+    public boolean canPartition(int[] nums) {
         int sum = 0;
-        for(int i : arr){
+        for(int i : nums){
             sum += i;
         }
         
@@ -10,30 +9,33 @@ class Solution {
             return false;
         }
         
-        sum = sum / 2;
+        return isPossible(nums, sum / 2, 0, new HashMap<String, Boolean>());
         
-        boolean[][] dp = new boolean[n + 1][sum + 1];
-        
-        for(int j = 0; j < sum + 1; j++){
-            dp[n][j] = false;
+    }
+    
+    private boolean isPossible(int[] nums, int sum, int currentIndex, HashMap<String, Boolean> memo){
+        if(sum == 0){
+            return true;
         }
         
-        for(int i = n; i >=0 ; i--){
-            dp[i][0] = true;
+        if(currentIndex >= nums.length || sum < 0){
+            return false;
         }
         
-        for(int i = n - 1; i >= 0; i--){
-            for(int j = 1;j < sum + 1; j++){
-                
-                if(j >= arr[i]){
-                    dp[i][j] = dp[i + 1][j - arr[i]] || dp[i + 1][j]; 
-                }
-                else{
-                    dp[i][j] = dp[i + 1][j];
-                }
-            }
+        String currentKey = currentIndex + "_" + sum;
+        if(memo.containsKey(currentKey)){
+            return memo.get(currentKey);
         }
-        return dp[0][sum];
+        
+        boolean consider = isPossible(nums, sum - nums[currentIndex], currentIndex + 1, memo);
+        if(consider == true){
+            return true;
+        }
+        boolean notConsider = isPossible(nums, sum, currentIndex + 1, memo);
+        
+        
+        memo.put(currentKey, consider || notConsider);
+        return memo.get(currentKey);
         
     }
     
