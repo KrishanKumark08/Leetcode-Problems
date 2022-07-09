@@ -1,32 +1,34 @@
 class Solution {
     public int coinChange(int[] coins, int amount) {
-        int ans = countcoins(coins , 0 , amount , new HashMap<>());
+        int ans = minCoins(coins, 0, amount, new HashMap<String,Integer>());
         
-        if(ans >= 100000)
+        if(ans == 100000){
             return -1;
+        }
         
         return ans;
     }
-    
-    public int countcoins(int[] coins , int current , int target , HashMap<String ,Integer> memo){
-        
-        if(target == 0)
+    public int minCoins(int[] coins, int currentIndex, int amount, HashMap<String,Integer> memo){
+        if(amount==0)
             return 0;
-        if(current >= coins.length)
-            return 100000;
+        if(currentIndex >= coins.length)
+            return 100000; //Maximum Value of Amount in constraints
         
-        String key = current + "_" + target;
+        String currentKey = currentIndex + "_" + amount;
         
-        if(memo.containsKey(key))
-            return memo.get(key);
+        if(memo.containsKey(currentKey)){
+            return memo.get(currentKey);
+        }
         
-        int consider = 100000;
-        if(target >= coins[current])
-        consider = 1 + countcoins( coins , current , target - coins[current] , memo);
+        int consider = 100000; 
+        if(coins[currentIndex] <= amount){
+            consider = 1 + minCoins(coins, currentIndex, amount - coins[currentIndex], memo);
+        }
         
-        int notconsider =  countcoins( coins , current + 1, target  , memo);
-        memo.put(key , Math.min(consider , notconsider));
+        int notConsider = minCoins(coins, currentIndex + 1, amount, memo);
         
-        return memo.get(key);
+        memo.put(currentKey, Math.min(consider, notConsider));
+        
+        return memo.get(currentKey); 
     }
 }
