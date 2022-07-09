@@ -1,36 +1,35 @@
 class Solution {
     public int maxProfit(int[] prices) {
-        return maximumProfit(prices, 0, true, new HashMap<>());
+        return maxProfit(prices,0, 1, 1, new HashMap<String,Integer>());
     }
+    public int maxProfit(int[] prices, int currentDay, int canBuy, int transCount, HashMap<String,Integer> memo){
+        
+        if(currentDay >= prices.length || transCount<=0)
+            return 0;
     
-    private int maximumProfit(int[] prices, int currentDay , boolean canBuy, HashMap<String, Integer> memo){
-        if(currentDay >= prices.length){
-            return -100000;
-        }
+        // String currentKey = Integer.toString(currentDay) + "" + Integer.toString(canBuy) + "" + Integer.toString(transCount);
+        // We Can't Use this Approach as it is giving TLE
         
+        String currentKey = currentDay + "_" + canBuy + "_" + transCount;
         
-        String currentKey = currentDay + "_" + canBuy;
+        if(memo.containsKey(currentKey))
+                return memo.get(currentKey);
         
-        if(memo.containsKey(currentKey)){
+        if(canBuy==1){
+            int idle = maxProfit(prices, currentDay + 1, canBuy, transCount, memo);
+            int buy = maxProfit(prices, currentDay + 1, 0, transCount, memo) - prices[currentDay];
+            
+            memo.put(currentKey,Math.max(idle,buy));
             return memo.get(currentKey);
         }
-        
-        int idle = 0;
-        int buy = 0;
-        int sell = 0;
-        
-        idle = maximumProfit(prices, currentDay + 1, canBuy, memo);
-        
-        if(canBuy){
-            buy = -prices[currentDay] + maximumProfit(prices, currentDay + 1, false, memo);
+        else
+        {
+            int idle = maxProfit(prices, currentDay + 1, canBuy, transCount, memo);
+            int sell = maxProfit(prices, currentDay + 1, 1, transCount - 1, memo) + prices[currentDay];
+            
+            memo.put(currentKey,Math.max(idle,sell));
+            return memo.get(currentKey);
         }
-        else{
-            sell = prices[currentDay];
-        }
-        
-        memo.put(currentKey, Math.max(idle, Math.max(buy, sell)));
-        return memo.get(currentKey);
-        
+            
     }
-    
 }
