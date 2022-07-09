@@ -16,17 +16,15 @@ class Solution {
                 return memo.get(currentKey);
         
         if(canBuy==1){
-            int idle = maxProfit(prices, currentDay + 1, canBuy, transCount, memo);
             int buy = maxProfit(prices, currentDay + 1, 0, transCount, memo) - prices[currentDay];
-            
+            int idle = maxProfit(prices, currentDay + 1, canBuy, transCount, memo);
             memo.put(currentKey,Math.max(idle,buy));
             return memo.get(currentKey);
         }
         else
         {
-            int idle = maxProfit(prices, currentDay + 1, canBuy, transCount, memo);
             int sell = maxProfit(prices, currentDay + 1, 1, transCount - 1, memo) + prices[currentDay];
-            
+            int idle = maxProfit(prices, currentDay + 1, canBuy, transCount, memo);   
             memo.put(currentKey,Math.max(idle,sell));
             return memo.get(currentKey);
         }
