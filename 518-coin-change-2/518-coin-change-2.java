@@ -1,30 +1,28 @@
 class Solution {
     public int change(int amount, int[] coins) {
+      return totalWays(coins, 0, amount, new HashMap<String,Integer>());
+    }
+    public int totalWays(int[] coins, int currentIndex, int amount, HashMap<String,Integer> memo){
+        if(amount==0)
+            return 1;
+        if(currentIndex >= coins.length)
+            return 0; 
         
-        int n = coins.length;
-        int memo[][] = new int[n + 1][amount + 1];
+        String currentKey = Integer.toString(currentIndex) + "_" + Integer.toString(amount);
         
-        for(int j = 0; j < amount + 1; j++){
-            memo[n][j] = 0;
+        if(memo.containsKey(currentKey)){
+            return memo.get(currentKey);
         }
         
-        for(int i = 0; i < n + 1; i++){
-            memo[i][0] = 1;
+        int consider = 0; 
+        if(coins[currentIndex] <= amount){
+            consider = totalWays(coins, currentIndex, amount - coins[currentIndex], memo);
         }
         
+        int notConsider = totalWays(coins, currentIndex + 1, amount, memo);
         
-        for(int i = n - 1; i >= 0; i--){
-            for(int j = 1; j < amount + 1; j++){
-                if(j >= coins[i]){
-                    memo[i][j] = memo[i][j - coins[i]] + memo[i+1][j];
-                }
-                else{
-                    memo[i][j] = memo[i + 1][j];
-                }
-            }
-        }
+        memo.put(currentKey, consider + notConsider);
         
-        return memo[0][amount];
-        
+        return memo.get(currentKey); 
     }
 }
