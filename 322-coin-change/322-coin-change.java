@@ -1,33 +1,32 @@
 class Solution {
     public int coinChange(int[] coins, int amount) {
-        int h=coinchange(coins,amount);
-        if(h==100000)
+        int ans = countcoins(coins , 0 , amount , new HashMap<>());
+        
+        if(ans >= 100000)
             return -1;
-        return h;
+        
+        return ans;
     }
-    private int coinchange(int[] coins,int amount)
-    {
-        int[][] dp= new int[coins.length+1][amount+1];
-        for(int i=0;i<coins.length+1;i++)
-        {
-            for(int j =0;j<amount+1;j++)
-            {
-                if(j == 0)
-                    dp[i][j]=0;
-                if(i == coins.length)
-                    dp[i][j]=100000;
-            }
-        }
-       for(int i=coins.length-1;i>=0;i--)
-        {
-            for(int j =1;j<amount+1;j++)
-            {
-                if(j-coins[i]>=0)
-                      dp[i][j]=Math.min(1+dp[i][j-coins[i]] ,dp[i+1][j]) ;
-                else
-                    dp[i][j] = dp[i+1][j];
-            }
-        }
-        return dp[0][amount];
+    
+    public int countcoins(int[] coins , int current , int target , HashMap<String ,Integer> memo){
+        
+        if(target == 0)
+            return 0;
+        if(current >= coins.length)
+            return 100000;
+        
+        String key = current + "_" + target;
+        
+        if(memo.containsKey(key))
+            return memo.get(key);
+        
+        int consider = 100000;
+        if(target >= coins[current])
+        consider = 1 + countcoins( coins , current , target - coins[current] , memo);
+        
+        int notconsider =  countcoins( coins , current + 1, target  , memo);
+        memo.put(key , Math.min(consider , notconsider));
+        
+        return memo.get(key);
     }
 }
