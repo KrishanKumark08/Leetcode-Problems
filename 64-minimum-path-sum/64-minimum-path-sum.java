@@ -13,8 +13,8 @@ class Solution {
                     continue;
                 }
                 
-                int right = Integer.MAX_VALUE;
-                int down = Integer.MAX_VALUE;
+                int right = 1000;
+                int down = 1000;
                 
                 if(i + 1 < m){
                     down = memo[i + 1][j];
