@@ -1,29 +1,28 @@
 class Solution {
     public int uniquePathsWithObstacles(int[][] obstacleGrid) {
-        return totalPaths(obstacleGrid, 0, 0, new HashMap<String, Integer>());
-    }
-    
-    private int totalPaths(int[][] obstacleGrid, int row, int col, HashMap<String, Integer> memo){
+        int m = obstacleGrid.length;
+        int n = obstacleGrid[0].length;
+        int[][] memo = new int[m][n];
         
-        if(row < 0 || row >= obstacleGrid.length || col < 0 || col >= obstacleGrid[0].length || obstacleGrid[row][col] == 1){
-            return 0;
+        memo[m-1][n-1] = 1;
+        
+        for(int i = m - 1; i >=0; i--){
+            for(int j = n - 1; j >= 0; j--){
+                if(obstacleGrid[i][j] == 1){
+                    memo[i][j] = 0;
+                    continue;
+                }
+                if(i + 1 < m){
+                    memo[i][j] += memo[i + 1][j];
+                }
+                
+                if(j + 1 < n){
+                    memo[i][j] += memo[i][j+1];
+                }
+            }
         }
         
-        if(row == obstacleGrid.length - 1 && col == obstacleGrid[0].length - 1){
-            return 1;
-        }
-        
-        String currentKey = row + "_" + col;
-        if(memo.containsKey(currentKey)){
-            return memo.get(currentKey);
-        }
-        
-        int downMove = totalPaths(obstacleGrid, row + 1, col, memo);
-        int rightMove = totalPaths(obstacleGrid, row, col + 1, memo);
-        
-        memo.put(currentKey, downMove + rightMove);
-        return memo.get(currentKey);
-        
+        return memo[0][0];
     }
     
 }
