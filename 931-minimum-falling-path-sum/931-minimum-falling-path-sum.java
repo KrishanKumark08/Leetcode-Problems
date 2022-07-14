@@ -61,7 +61,7 @@ class Solution {
 //         if(currentRow==n-1){
 //             return matrix[currentRow][currentCol];
 //         }
-        
+            // TC : 3^(n*n) SC: Recursive Stack Space : O(n) TC is Exponential
 //         String currentKey = currentRow + "_" + currentCol;
 //         if(memo[currentRow][currentCol]!=0){
 //             return memo[currentRow][currentCol];
