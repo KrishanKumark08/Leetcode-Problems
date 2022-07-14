@@ -16,7 +16,8 @@ class Solution {
                 
             }
         }
-        
+        // We can Space Optimize it by using 1d array and changing after every j loop 
+        // Just to maintain the values of the below row.
         return dp[0][0];
         
         //return minPath(0, 0, triangle,new HashMap<String, Integer>());
