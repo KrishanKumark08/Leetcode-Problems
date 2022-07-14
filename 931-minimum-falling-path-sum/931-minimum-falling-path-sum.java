@@ -40,9 +40,10 @@ class Solution {
         
         int min = Integer.MAX_VALUE;
         for(int temp:dp[0]){
-            min = Math.min(min, temp);
+            min = Math.min(min, temp); // As We Can Start from any block in 0th Row so answer can be 
+                                        // present at any block
         }
-        return min;
+        return min; 
         
         // int n = matrix.length;
         // int cost = Integer.MAX_VALUE;
