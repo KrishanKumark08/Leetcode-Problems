@@ -1,26 +1,20 @@
 class Solution {
-    public int minCostClimbingStairs(int[] cost) {
-        HashMap<Integer, Integer> memo = new HashMap<>();
-        return Math.min(minCost(cost,0,memo), memo.get(1));
+    // Muskaan Leetcode
+public int minCostClimbingStairs(int[] cost) {
+        
+        int n = cost.length;
+        int memo[] = new int[n+1];
+        
+        memo[0] = cost[0];
+        memo[1] = Math.min(memo[0] , 0) + cost[1];
+        
+        for(int i = 2 ; i<=n ; i++){
+            
+            memo[i] =  Math.min(memo[i-1] , memo[i-2]);
+            if( i < n)
+                memo[i] += cost[i];
+        }
+        return memo[n];
     }
-    public int minCost(int[] cost,int currentIndex,HashMap<Integer,Integer> memo)
-    {
-        if(currentIndex == cost.length)
-            return 0;
-        
-        if(currentIndex > cost.length)
-            return 1000;
-        
-        int currentKey = currentIndex;
-        
-        if(memo.containsKey(currentKey))
-            return memo.get(currentKey);
-        
-        int oneJump = cost[currentIndex] + minCost(cost,currentIndex + 1,memo);
-        int twoJump = cost[currentIndex] + minCost(cost,currentIndex + 2,memo);
-        
-        memo.put(currentKey,Math.min(oneJump,twoJump));
-        
-        return Math.min(oneJump,twoJump);
-    }
+
 }
