@@ -1,29 +1,23 @@
-
 class Solution {
     public int climbStairs(int n) {
-        return totalWays(0, n, new HashMap<Integer, Integer>());
+        
+        return totalWays( n, new int[n+1]);
     }
     
-    public int totalWays(int currentStair, int targetStair, HashMap<Integer, Integer> memo){
+    public int totalWays(int n , int[] memo){
         
-        if(currentStair == targetStair){
-            return 1;
+        memo[0] = 1;
+        memo[1] = 1;
+        
+        for(int i = 2 ; i <= n ; i++)
+        {
+            int onestep = memo[i-1];
+            int twostep = memo[i-2];
+        
+            int ans = onestep + twostep;
+            memo [i] = ans;
         }
         
-        if(currentStair > targetStair){
-            return 0;
-        }
-        
-        int currentKey = currentStair;
-        
-        if(memo.containsKey(currentKey)){
-            return memo.get(currentKey);
-        }
-        
-        int oneStep = totalWays(currentStair+1, targetStair, memo);
-        int twoSteps = totalWays(currentStair+2, targetStair, memo);
-        
-        memo.put(currentKey, oneStep + twoSteps);
-        return oneStep + twoSteps;
+        return memo[n];
     }
 }
