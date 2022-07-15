@@ -1,24 +1,32 @@
 class Solution {
     public int rob(int[] nums) {
-        if(nums.length==1)
-            return nums[0];
-        return Math.max(maxProfit(nums,0, nums.length - 1, new HashMap<Integer,Integer>()), maxProfit(nums,1, nums.length , new HashMap<Integer,Integer>()) );
-    }
-    public int maxProfit(int[] nums, int currentIndex, int last, HashMap<Integer,Integer> memo){
+        int n = nums.length ;
+        if(nums.length == 1)return nums[0];
+        if(nums.length == 2)return Math.max(nums[0] , nums[1]);
         
-        if(currentIndex >= last)
-            return 0;
+        int memo[] = new int[n + 1];
         
-        int currentKey = currentIndex;
+        memo[n] = 0;
+        memo[n-1] = nums[n-1];
         
-        if(memo.containsKey(currentKey))
-            return memo.get(currentKey);
         
-        int rob = nums[currentIndex] + maxProfit(nums, currentIndex + 2, last, memo);
-        
-        int notRob = maxProfit(nums, currentIndex + 1, last, memo);
-        
-        memo.put(currentKey, Math.max(rob, notRob));
-        return memo.get(currentKey);
+        for(int i = n-2 ; i >= 1 ; i-- )
+        {
+            int consider = nums[i] + memo[i+2];
+            int notconsider = memo[i+1];
+            
+            memo[i] = Math.max(consider , notconsider);
+        }
+        memo[n] = 0;
+        memo[n-1] = 0;
+        for(int i = n-2 ; i >= 2 ; i-- )
+        {
+            int consider = nums[i] + memo[i+2];
+            int notconsider = memo[i+1];
+            
+            memo[i] = Math.max(consider , notconsider);
+        }
+        memo[0] = memo[2] + nums[0];
+        return Math.max(memo[0],memo[1]);
     }
 }
