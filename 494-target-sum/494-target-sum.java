@@ -1,26 +1,59 @@
 class Solution {
     public int findTargetSumWays(int[] nums, int target) {
-        return totalWays(nums, target, 0,new HashMap<String,Integer>());
-    }
-    public int totalWays(int[] nums, int target, int currentIndex, HashMap<String,Integer> memo){
-        if(currentIndex >= nums.length){
-            if(target!=0)
-                return 0;
-            else
-                return 1;
+        
+        int sum = 0;
+        target = Math.abs(target); // There can be negative targets
+                                    // Number of possibilities for negative targets will be same as
+                                    // Number of Possibilites for positive target
+        for(int i : nums)
+        {
+            sum += i;
         }
         
-        String currentKey = Integer.toString(currentIndex) + "_" + Integer.toString(target);
+        if((target + sum)% 2 != 0) // Whether it is possible to do this partition or not
+            return 0;
+       
+        if(target == 0 && sum == 0) // If array is containing all the 0 elements and target is also 0
+                                    // So ans will be all the subsets.
+            return (int)Math.pow(2 ,nums.length);
         
-        if(memo.containsKey(currentKey))
-            return memo.get(currentKey);
+        target = (target+ sum)/2;
         
-        int posSign = totalWays(nums, target - nums[currentIndex], currentIndex + 1, memo);
+        Arrays.sort(nums); // To avoid issues caused due to 0s in the array
+                            // This way array will come at beginning and that problem will be solved
+        return subsetsum(nums , target) ;
+    }
+   public int subsetsum( int[] nums ,int target){
         
-        int negSign = totalWays(nums, target + nums[currentIndex], currentIndex + 1, memo);
+        if(target == 0)
+            return 0;
         
-        memo.put(currentKey,posSign + negSign);
+        int n = nums.length;
+        int dp[][] = new int[n+1][target+1];
         
-        return memo.get(currentKey);
+        for(int i = 0 ; i < target+1 ; i++){
+            dp[n][i] = 0;
+        }
+        
+        for(int i = 0 ; i < n+1 ; i++){
+            dp[i][0] = 1;
+        }
+        
+        for(int current = n-1 ; current >= 0 ; current--){
+            
+            for(int t = 1 ; t <= target ; t++){
+    dp[current][t] = dp[current + 1][t] +  ((t - nums[current] >= 0) ? dp[current+1][t - nums[current]] : 0 );
+                
+            } // Similar to number of subsets with given difference
+        }
+       
+       for(int current =0 ; current <= n ; current++){
+            for(int t = 0 ; t <= target ; t++){
+                System.out.print(dp[current][t] + "  ");
+            }
+            System.out.println();
+       }
+       
+        return dp[0][target];
     }
 }
