@@ -1,34 +1,52 @@
 class Solution {
     public int coinChange(int[] coins, int amount) {
-        int ans = minCoins(coins, 0, amount, new HashMap<String,Integer>());
+        int ans = countcoins(coins ,amount );
         
-        if(ans == 100000){
+        if(ans >= 1000000)
             return -1;
-        }
         
         return ans;
     }
-    public int minCoins(int[] coins, int currentIndex, int amount, HashMap<String,Integer> memo){
-        if(amount==0)
-            return 0;
-        if(currentIndex >= coins.length)
-            return 100000; //Maximum Value of Amount in constraints
+    
+    public int countcoins(int[] coins , int target){
         
-        String currentKey = currentIndex + "_" + amount;
+        int n = coins.length;
+        int dp[][] = new int[n+1][target+1];
         
-        if(memo.containsKey(currentKey)){
-            return memo.get(currentKey);
+        for(int i[] : dp)
+            Arrays.fill( i , 1000000);
+        
+       for(int i = 0 ;  i < target+1 ; i++){
+            
+            dp[n][i] = 1000000;
+        }
+        for(int i = 0 ;  i < n+1 ; i++){
+            
+            dp[i][0] = 0;
         }
         
-        int consider = 100000; 
-        if(coins[currentIndex] <= amount){
-            consider = 1 + minCoins(coins, currentIndex, amount - coins[currentIndex], memo);
+        for(int current = n-1 ; current >= 0 ;  current--)
+        {
+            for(int t = 1 ; t <= target ; t++)
+            {
+                int consider = 1000000;
+                if(t >= coins[current])
+                consider = 1 + dp[current][t - coins[current]];
+
+                int notconsider =  dp[current + 1][t];
+                dp[current][t] = Math.min(consider , notconsider);
+            }
         }
+        // for(int current = 0 ; current <= n ;  current++)
+        // {
+        //     for(int t = 0 ; t <= target ; t++)
+        //     {
+        //         System.out.print(dp[current][t]+" ");
+        //     }
+        //     System.out.println();
+        // }
         
-        int notConsider = minCoins(coins, currentIndex + 1, amount, memo);
-        
-        memo.put(currentKey, Math.min(consider, notConsider));
-        
-        return memo.get(currentKey); 
+       
+        return dp[0][target];
     }
 }
