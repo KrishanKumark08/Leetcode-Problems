@@ -8,7 +8,7 @@ class Solution {
         
         for(int i = n - 1; i >= 0; i--){
             for(int j = m - 1; j >= 0; j--){
-                System.out.println("i = "+ i + " " + "j = " + j);
+                //System.out.println("i = "+ i + " " + "j = " + j);
                 if(text1.charAt(i) == text2.charAt(j)){
                     memo[i][j] = 1 + memo[i + 1][j + 1];
                 }
