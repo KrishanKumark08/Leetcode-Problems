@@ -1,24 +1,26 @@
 class Solution {
     public int lengthOfLIS(int[] nums) {
-        int n = nums.length;
-        int[] dp = new int[n];
-        
-        for(int i = 0;i < n; i++){
-            dp[i] = 1;
-        }
-        
-        int answer = 1;
-        
-        for(int i = 1;i < n; i++){
-            for(int j = 0; j < i; j++){
-                if(nums[i] > nums[j]){
-                    dp[i] = Math.max(dp[i], dp[j] + 1);
-                }
-                answer = Math.max(answer, dp[i]);
-            }
-            
-        }
-        
-        return answer;
+        return LIS(nums, 0, -1, new int[nums.length][nums.length + 1]);
     }
+    
+    private int LIS(int nums[], int currentIndex, int prev, int[][] dp){
+        if(currentIndex >= nums.length){
+            return 0;
+        }
+        
+        if(dp[currentIndex][prev + 1] != 0){
+            return dp[currentIndex][prev + 1];
+        }        
+        
+        int len = LIS(nums, currentIndex + 1, prev, dp);
+        
+        if(prev == -1 || nums[currentIndex] > nums[prev]){
+            len = Math.max(len, 1 + LIS(nums, currentIndex + 1, currentIndex, dp));
+        }
+        
+        dp[currentIndex][prev + 1] = len;
+        return len;
+        
+    }
+    
 }
