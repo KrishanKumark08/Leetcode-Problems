@@ -35,6 +35,8 @@ class Solution {
         int answer = 1;
         
         for(int i = 0; i < n; i++){
+            //To ensure that there something on the left and right of a particular index i 
+		    //inorder to make it a mountain  which means dp[i] > 1 && dp2[i] > 1
             if(dp[i] > 1 && dp2[i] > 1)
                 answer = Math.max(answer, dp[i] + dp2[i] - 1);
         }
