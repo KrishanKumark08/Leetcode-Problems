@@ -4,23 +4,24 @@ class Solution {
         List<Integer> currAns = new ArrayList<>();
         currAns.add(0);
         
-        allPaths(graph, 0, currAns, ans);
+        Queue<List<Integer>> queue = new LinkedList<>();
+        queue.add(currAns);
         
+        while(!queue.isEmpty()){
+            currAns = queue.remove();
+            
+            int currentNode = currAns.get(currAns.size() - 1);
+            if(currentNode == graph.length - 1){
+                ans.add(currAns);
+                continue;   
+            }
+            
+            for(int neighbour:graph[currentNode]){
+                List<Integer> newList = new ArrayList<>(currAns);
+                newList.add(neighbour);
+                queue.add(newList);
+            }
+        }
         return ans;
     }
-    
-    private void allPaths(int[][] graph, int currentNode, List<Integer> currAns, List<List<Integer>> ans){
-        if(currentNode == graph.length - 1){
-            ans.add(new ArrayList<>(currAns));
-            return;
-        }
-        
-        for(int i = 0; i < graph[currentNode].length; i++){
-            currAns.add(graph[currentNode][i]);
-            allPaths(graph, graph[currentNode][i], currAns, ans);
-            currAns.remove(currAns.size() - 1);
-        }
-        
-    }
-    
 }
