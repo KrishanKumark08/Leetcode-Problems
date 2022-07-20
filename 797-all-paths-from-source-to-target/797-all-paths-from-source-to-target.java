@@ -1,28 +1,26 @@
 class Solution {
     public List<List<Integer>> allPathsSourceTarget(int[][] graph) {
         List<List<Integer>> ans = new ArrayList<>();
-        List<Integer> currList = new ArrayList<>();
-        currList.add(0);
+        List<Integer> currAns = new ArrayList<>();
+        currAns.add(0);
         
-        Queue<List<Integer>> queue = new LinkedList<>();
-        queue.add(currList);
+        allPaths(graph, 0, currAns, ans);
         
-        while(!queue.isEmpty()){
-            currList = queue.remove();
-            
-            int v = currList.get(currList.size() - 1);
-            
-            if(v == graph.length - 1){
-                ans.add(currList);
-                continue;
-            }
-            
-            for(int neighbour:graph[v]){
-                List<Integer> newList = new ArrayList<>(currList);
-                newList.add(neighbour);
-                queue.add(newList);
-            }
-        }
         return ans;
     }
+    
+    private void allPaths(int[][] graph, int currentNode, List<Integer> currAns, List<List<Integer>> ans){
+        if(currentNode == graph.length - 1){
+            ans.add(new ArrayList<>(currAns));
+            return;
+        }
+        
+        for(int i = 0; i < graph[currentNode].length; i++){
+            currAns.add(graph[currentNode][i]);
+            allPaths(graph, graph[currentNode][i], currAns, ans);
+            currAns.remove(currAns.size() - 1);
+        }
+        
+    }
+    
 }
