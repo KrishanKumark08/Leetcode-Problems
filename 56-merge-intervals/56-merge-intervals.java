@@ -3,7 +3,8 @@ class Solution {
         Stack<Integer> stack1 = new Stack<>();
         Stack<Integer> stack2 = new Stack<>();
         
-        Arrays.sort(intervals, (a,b) -> a[0] - b[0]);
+        Arrays.sort(intervals, (a,b) -> a[0] - b[0]); // It is known as lambda function
+        // Here we are customizing our sort
         
         stack1.push(intervals[0][0]);
         stack2.push(intervals[0][1]);
