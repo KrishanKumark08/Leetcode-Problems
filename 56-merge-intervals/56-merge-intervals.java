@@ -13,7 +13,7 @@ class Solution {
             int end = intervals[i][1];
             
             if(start >= stack1.peek() && start <= stack2.peek()){
-                if(end <= stack2.peek()){
+                if(end <= stack2.peek()){ // [[1,4],[2,3]] -> ans is -> [1,4]
                     continue;
                 }
                 stack2.pop();
