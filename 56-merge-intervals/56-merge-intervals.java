@@ -23,32 +23,6 @@ class Solution {
                 stack1.push(start);
                 stack2.push(end);
             }
-            
-            // if(stack1.peek() > start && end > stack2.peek()){
-            //     stack1.pop();
-            //     stack2.pop();
-            //     stack1.push(start);
-            //     stack2.push(end);
-            // }
-            // else if(stack1.peek() < start && end < stack2.peek()){
-            //     continue;
-            // }
-            // else if(stack1.peek() <= start && start <= stack2.peek()){
-            //     stack2.pop();
-            //     stack2.push(end);
-            // }
-            // else if(start < stack1.peek() && end< stack1.peek()){
-            //     stack1.push(start);
-            //     stack2.push(end);
-            // }
-            // else if(start <= stack1.peek() && end<= stack2.peek()){
-            //     stack1.pop();
-            //     stack1.push(start);
-            // }
-            // else{
-            //     stack1.push(start);
-            //     stack2.push(end);
-            // }
         }
         
         int n = stack1.size();
