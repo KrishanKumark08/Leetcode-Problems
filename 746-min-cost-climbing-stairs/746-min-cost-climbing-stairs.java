@@ -1,20 +1,14 @@
 class Solution {
-    // Muskaan Leetcode
-public int minCostClimbingStairs(int[] cost) {
-        
+    public int minCostClimbingStairs(int[] cost) {
         int n = cost.length;
-        int memo[] = new int[n+1];
-        
-        memo[0] = cost[0];
-        memo[1] = Math.min(memo[0] , 0) + cost[1];
-        
-        for(int i = 2 ; i<=n ; i++){
-            
-            memo[i] =  Math.min(memo[i-1] , memo[i-2]);
-            if( i < n)
-                memo[i] += cost[i];
+        int memo[] = new int[n+2];
+        memo[n + 1] = 0;
+        memo[n] = 0;
+        for(int i = n - 1; i >= 0; i--){
+            memo[i] = cost[i] + Math.min(memo[i + 1], memo[i + 2]);
         }
-        return memo[n];
+        
+        return Math.min(memo[0], memo[1]);
+        
     }
-
 }
