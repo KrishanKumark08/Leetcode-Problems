@@ -1,6 +1,5 @@
 class Solution {
     public boolean validPath(int n, int[][] edges, int source, int destination) {
-        // BFS
         List<List<Integer>> graph = new ArrayList<>();
         
         for(int i = 0; i < n; i++){
@@ -13,33 +12,31 @@ class Solution {
             
             graph.get(v1).add(v2);
             graph.get(v2).add(v1);
-        }
-        
-        Queue<Integer> queue = new LinkedList<>();
-        boolean[] visited = new boolean[n];
-        
-        queue.add(source);
-        
-        while(!queue.isEmpty()){
-            int currentNode = queue.remove();
-            
-            if(visited[currentNode]){
-                continue;
-            }
-            
-            if(currentNode == destination){
-                return true;
-            }
-            
-            visited[currentNode] = true;
-            
-            for(Integer neighbour:graph.get(currentNode)){
-                queue.add(neighbour);
-            }
             
         }
-        return false;
+        
+        return isValid(graph, source, destination, new int[n]);
         
     }
-}
     
+    private boolean isValid(List<List<Integer>> graph, int currentNode, int destination, int visited[]){
+        if(visited[currentNode] == 1){
+            return false;
+        }
+        
+        if(currentNode == destination){
+            return true;
+        }
+        
+        visited[currentNode] = 1;
+        boolean ans = false;
+        for(int neigh:graph.get(currentNode)){
+            boolean path = isValid(graph, neigh, destination, visited);
+            ans = ans || path;
+        }
+        
+        return ans;
+        
+    }
+    
+}
