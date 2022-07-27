@@ -1,46 +1,62 @@
 class Solution {
     public boolean canFinish(int numCourses, int[][] prerequisites) {
-        int[] inDegree = new int[numCourses];
-        Queue<Integer> queue = new LinkedList<>();
+        int n = numCourses;
+        List<ArrayList<Integer>> graph = createGraph(n, prerequisites);
+        
         HashSet<Integer> visited = new HashSet<>();
-        List<ArrayList<Integer>> graph = new ArrayList<>();
+        HashSet<Integer> recStack = new HashSet<>();
+        List<Integer> traversal = new ArrayList<>();
         
-        for(int i = 0; i < numCourses; i++){
-            graph.add(new ArrayList<Integer>());
-        }
-        
-        for(int i = 0; i < prerequisites.length; i++){
-            inDegree[prerequisites[i][0]]++;
-            graph.get(prerequisites[i][1]).add(prerequisites[i][0]);
-        }
-        
-        int ans = 0;
-        
-        for(int i = 0;i < numCourses; i++){
-            if(inDegree[i] == 0){
-                queue.add(i);
-                ans++;
-            }
-        }
-        
-        while(!queue.isEmpty()){
-            int currentVertex = queue.remove();
+        for(int currentVertex = 0; currentVertex < n; currentVertex++){
             
             if(visited.contains(currentVertex)){
                 continue;
             }
             
-            visited.add(currentVertex);
-            for(int neighbour:graph.get(currentVertex)){
-                inDegree[neighbour]--;
-                if(inDegree[neighbour] == 0){
-                    queue.add(neighbour);
-                    ans++;
-                }
+            if(isCyclic(graph, currentVertex, visited, recStack, traversal)){
+                return false;
             }
         }
         
-        return ans == numCourses;
+        return true;
+        
+    }
+    
+    private boolean isCyclic(List<ArrayList<Integer>> graph, int currentVertex, HashSet<Integer> visited, HashSet<Integer> recStack, List<Integer> traversal){
+        visited.add(currentVertex);
+        recStack.add(currentVertex);
+        
+        for(Integer neighbour:graph.get(currentVertex)){
+            if(!visited.contains(neighbour)){
+                if(isCyclic(graph, neighbour, visited, recStack, traversal)){
+                    return true;
+                }
+            }
+            else if(recStack.contains(neighbour)){
+                return true;
+            }
+        }
+        
+        traversal.add(currentVertex);
+        recStack.remove(currentVertex);
+        return false;
+        
+    }
+    
+    private List<ArrayList<Integer>> createGraph(int n, int[][] edges){
+        List<ArrayList<Integer>> graph = new ArrayList<>(n);
+        
+        for(int i = 0; i < n; i++){
+            graph.add(new ArrayList<Integer>());
+        }
+        
+        for(int[] edge:edges){
+            int v = edge[0];
+            int u = edge[1];
+            graph.get(u).add(v);
+        }
+        
+        return graph;
         
     }
     
