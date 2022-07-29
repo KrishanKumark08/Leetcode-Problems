@@ -37,6 +37,7 @@ class Solution {
             }
             
             tarjanDFS(graph, neigh, currentVertex, discTime, lowTime, time, ans);
+            
             lowTime[currentVertex] = Math.min(lowTime[currentVertex], lowTime[neigh]);
             
             if(discTime[currentVertex] < lowTime[neigh]){
