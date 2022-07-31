@@ -1,9 +1,28 @@
 class Solution {
     public int closestMeetingNode(int[] edges, int node1, int node2) {
-        int[] ds1 = calculateDistances(edges, node1);
-        int[] ds2 = calculateDistances(edges, node2);
-        
         int n = edges.length;
+        
+        int[] ds1 = new int[n];
+        Arrays.fill(ds1, n);
+        
+        int count1 = 0;
+        
+        while(node1 != -1 && ds1[node1] == n){
+            ds1[node1] = count1++;
+            node1 = edges[node1];
+        }
+        
+        int[] ds2 = new int[n];
+        Arrays.fill(ds2, n);
+        
+        int count2 = 0;
+        
+        while(node2 != -1 && ds2[node2] == n){
+            ds2[node2] = count2++;
+            node2 = edges[node2];
+        }
+        
+        
         int ans = -1;
         int minDis = n;
         for(int i = 0; i < n; i++){
@@ -13,17 +32,7 @@ class Solution {
                 minDis = currDis;
             }
         }
+        
         return ans;
     }
-    
-    private int[] calculateDistances(int[] edges, int node){
-        int n = edges.length;
-        int[] ds = new int[n];
-        Arrays.fill(ds, n);
-        for(int d = 0; node >= 0 && ds[node] == n; node = edges[node]){
-            ds[node] = d++;
-        }
-        return ds;
-    }
-    
 }
