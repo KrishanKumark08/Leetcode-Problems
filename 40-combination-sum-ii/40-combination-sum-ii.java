@@ -11,7 +11,7 @@ public void generateTotalWays(int[] candidates, int currentIndex, int target, Ha
         
         if(target == 0){
             List<Integer> ans = new ArrayList<>(currentAns);
-            Collections.sort(ans);
+            //Collections.sort(ans);
             combinations.add(ans);
             return;
         }       
