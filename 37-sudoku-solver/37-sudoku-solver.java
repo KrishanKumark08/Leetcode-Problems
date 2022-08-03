@@ -28,7 +28,7 @@ class Solution {
             if(isValidCell(board, currentRow, currentCol, currentVal)){
                 board[currentRow][currentCol] = currentVal;
                 
-                if(sudokuSolver(board, currentRow, currentCol)){
+                if(sudokuSolver(board, nextRowPos, nextColPos)){
                     return true;
                 }
                 
