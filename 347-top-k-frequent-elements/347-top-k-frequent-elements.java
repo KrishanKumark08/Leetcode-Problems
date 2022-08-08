@@ -1,33 +1,39 @@
+class Pair implements Comparable<Pair>{
+    int element;
+    int count;
+    Pair(int element, int count){
+        this.element = element;
+        this.count = count;
+    }
+    
+    public int compareTo(Pair o){
+        return this.count - o.count;
+    }
+    
+}
 class Solution {
     public int[] topKFrequent(int[] nums, int k) {
+        
+        PriorityQueue<Pair> pq = new PriorityQueue<>();
+        
         HashMap<Integer, Integer> memo = new HashMap<>();
         
-        for(int num:nums){
-            memo.put(num, memo.getOrDefault(num, 0) + 1);
+        for(int i = 0; i < nums.length; i++){
+            memo.put(nums[i], memo.getOrDefault(nums[i], 0) + 1);
         }
         
-        // Comparator<Map.Entry<Integer, Integer>> valueComparator = new Comparator(){
-        //     public int compare(Map.Entry<Integer, Integer> e1, Map.Entry<Integer, Integer> e2){
-        //         return e1.getValue() - e2.getValue();
-        //     }
-        // };
-        
-        List<Map.Entry<Integer, Integer>> listOfEntries = new ArrayList<>(memo.entrySet());
-        
-        Collections.sort(listOfEntries, new Comparator<Map.Entry<Integer, Integer>>(){
-            public int compare(Map.Entry<Integer, Integer> e1, Map.Entry<Integer, Integer> e2){
-                return e2.getValue() - e1.getValue();
+        for(int key:memo.keySet()){
+            pq.add(new Pair(key, memo.get(key)));
+            if(pq.size() > k){
+                pq.remove();
             }
-        });
-
-        System.out.println(listOfEntries);
-        
-        
+        }
         
         int[] ans = new int[k];
         
-        for(int i = 0; i < k; i++){
-            ans[i] = listOfEntries.get(i).getKey();
+        for(int i = k - 1; i >= 0; i--){
+            Pair p = pq.remove();
+            ans[i] = p.element;
         }
         
         return ans;
