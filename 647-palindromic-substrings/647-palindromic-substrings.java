@@ -8,10 +8,6 @@ class Solution {
         return list.size();
     }
     public void totalPalindrome(String s, int start, int end, List<String> list, HashMap<String, Integer> memo){
-        
-//         if(isPalindrome(s, start, end) == true || start == end)
-//             return 0;
-        
         if(start > end){
             return ;
         }
@@ -20,20 +16,14 @@ class Solution {
         if(memo.containsKey(currentKey))
             return ;
         
-        // int ans  = 2001;
-        
         for(int currentCut = start; currentCut <= end; currentCut++){
             if(isPalindrome(s, start, currentCut) == true){
                 list.add(s.substring(start,currentCut + 1));
                 totalPalindrome(s, currentCut + 1, end, list, memo);
-            // int rightHalf = totalPalindrome(s, currentCut + 1, end, list, memo);
-            // ans = Math.min(ans, 1 + rightHalf);
             }
         }
         
         memo.put(currentKey, 0);
-        
-//         return memo.get(currentKey);
         return ;
         
     }
