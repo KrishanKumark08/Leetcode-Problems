@@ -1,24 +1,26 @@
 class Solution {
     public int longestCommonSubsequence(String text1, String text2) {
-        
-        int n = text1.length();
-        int m = text2.length();
-        
-        int[][] memo = new int[n + 1][m + 1];
-        
-        for(int i = n - 1; i >= 0; i--){
-            for(int j = m - 1; j >= 0; j--){
-                //System.out.println("i = "+ i + " " + "j = " + j);
-                if(text1.charAt(i) == text2.charAt(j)){
-                    memo[i][j] = 1 + memo[i + 1][j + 1];
-                }
-                else{
-                    memo[i][j] = Math.max(memo[i][j + 1], memo[i + 1][j]);
-                }
-            }
+        return solve(text1, text2, 0, 0, new int[text1.length()][text2.length()]);
+    }
+    
+    private int solve(String s1, String s2,int cI1, int cI2, int[][] memo){
+        if(cI1 >= s1.length() || cI2 >= s2.length()){
+            return 0;
         }
         
-        return memo[0][0];
+        if(memo[cI1][cI2] != 0){
+            return memo[cI1][cI2];
+        }
+        
+        
+        if(s1.charAt(cI1) == s2.charAt(cI2)){
+            memo[cI1][cI2] = 1 + solve(s1, s2, cI1 + 1, cI2 + 1, memo);
+            return memo[cI1][cI2];
+        }
+        
+        memo[cI1][cI2] = Math.max(solve(s1, s2, cI1 + 1, cI2, memo), solve(s1, s2, cI1, cI2 + 1, memo));
+        return memo[cI1][cI2];
         
     }
+    
 }
