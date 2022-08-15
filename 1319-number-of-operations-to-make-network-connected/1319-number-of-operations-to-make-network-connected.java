@@ -13,9 +13,6 @@ class Solution {
             }
         }
         
-//         if(numberOfConnectedComponents == 1){
-//             return -1;
-//         }
         if(connections.length >= n - 1)
             return numberOfConnectedComponents - 1;
         
