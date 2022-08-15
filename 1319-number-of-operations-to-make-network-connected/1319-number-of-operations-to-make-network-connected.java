@@ -1,5 +1,10 @@
 class Solution {
     public int makeConnected(int n, int[][] connections) {
+        
+        if(connections.length < n - 1){
+            return -1;
+        }
+        
         int numberOfConnectedComponents = 0;
         
         HashSet<Integer> visited = new HashSet<>();
@@ -13,12 +18,8 @@ class Solution {
             }
         }
         
-        if(connections.length >= n - 1)
-            return numberOfConnectedComponents - 1;
-        
-        return -1;
-        
-        
+        return numberOfConnectedComponents - 1;
+      
     }
 
     private void runDFS(int currentVertex, HashSet<Integer> visited, List<List<Integer>> graph){
