@@ -28,8 +28,6 @@ class Solution {
         HashSet<Integer> visited = new HashSet<>();
         q.add(node);
         
-        Node ans = new Node();
-        
         while(q.size() > 0){
             
             Node cn = q.poll();
@@ -40,9 +38,6 @@ class Solution {
             if(!graph.containsKey(cn.val))
             {
                 Node newNode = new Node(cn.val);
-                if(ans.val == 0){
-                    ans = newNode;
-                }
                 graph.put(cn.val , newNode);
             }
             
@@ -61,11 +56,7 @@ class Solution {
                 list.add(graph.get(current.val));
                 
             }
-            System.out.print(cn.val);
-            System.out.println();
-            for(Node i : list)
-                System.out.print(i.val + " ");
-            System.out.println();
+         
             Node newNode = graph.get(cn.val);
             newNode.neighbors = list;
             
