@@ -20,62 +20,58 @@ class Node {
 
 class Solution {
     public Node cloneGraph(Node node) {
-        
-        if(node == null){
+        if(node == null)
             return node;
-        }
         
-        HashMap<Integer, Node> memo = new HashMap<>(); 
-        
-        Queue<Node> queue = new LinkedList<>();
-        queue.add(node);
+        HashMap<Integer,Node> graph = new HashMap<>();
+        Queue<Node> q = new LinkedList<>();
         HashSet<Integer> visited = new HashSet<>();
+        q.add(node);
         
-        Node ans = new Node(-1);
+        Node ans = new Node();
         
-        while(!queue.isEmpty()){
-            Node currNode = queue.remove();
+        while(q.size() > 0){
             
-            if(visited.contains(currNode.val)){
+            Node cn = q.poll();
+            
+            if(visited.contains(cn.val))
                 continue;
-            }
             
-            visited.add(currNode.val);
-            Node newNode;
-            if(memo.containsKey(currNode.val))
-                newNode = memo.get(currNode.val);
-            else
+            if(!graph.containsKey(cn.val))
             {
-                newNode = new Node(currNode.val);
-                memo.put(currNode.val, newNode);
+                Node newNode = new Node(cn.val);
+                if(ans.val == 0){
+                    ans = newNode;
+                }
+                graph.put(cn.val , newNode);
             }
+            
+            visited.add(cn.val);
+
+            List<Node> list = new ArrayList<>();
+            
+            for(Node current : cn.neighbors){
+                if(!graph.containsKey(current.val))
+                {
+                    Node newNode = new Node(current.val);
+                    graph.put(newNode.val , newNode);
+                     q.add(current);
+                }
                 
-            
-            if(ans.val == -1){
-                ans = newNode;
+                list.add(graph.get(current.val));
+                
             }
+            System.out.print(cn.val);
+            System.out.println();
+            for(Node i : list)
+                System.out.print(i.val + " ");
+            System.out.println();
+            Node newNode = graph.get(cn.val);
+            newNode.neighbors = list;
             
-            //System.out.println("Hello");
-            
-            List<Node> newNeighbors = new ArrayList<>();
-            for(Node neigh:currNode.neighbors){
-                if(memo.containsKey(neigh.val)){
-                    newNeighbors.add(memo.get(neigh.val));
-                }
-                else{
-                    Node temp = new Node(neigh.val);
-                    newNeighbors.add(temp);
-                    memo.put(temp.val, temp);   
-                }
-                if(!visited.contains(neigh.val))
-                    queue.add(neigh);
-            }
-            newNode.neighbors = newNeighbors; 
-            for(Node n:newNeighbors){
-               // System.out.print(n.val + " ");
-            }
-            //System.out.println();
         }
-        return ans;
+  
+        return graph.get(1);
+        //return ans;
     }
 }
