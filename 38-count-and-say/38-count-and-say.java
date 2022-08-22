@@ -17,12 +17,8 @@ class Solution {
                 }
                 
                 temp = temp + "" + count + "" + currentChar;
-                
-                //System.out.println(count + " " + currentChar + " " + i);
             }
-            //System.out.println("New String Started = " + temp);
             s = temp;
-            
         }
         return s;
     }
