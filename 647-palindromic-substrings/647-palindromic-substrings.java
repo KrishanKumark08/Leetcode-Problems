@@ -1,10 +1,7 @@
 class Solution {
     public int countSubstrings(String s) {
         List<String> list = new ArrayList<>();
-       totalPalindrome(s, 0, s.length() - 1, list, new HashMap<String, Integer>());
-        // for(String k:list){
-        //     System.out.println(k);
-        // }
+        totalPalindrome(s, 0, s.length() - 1, list, new HashMap<String, Integer>());
         return list.size();
     }
     public void totalPalindrome(String s, int start, int end, List<String> list, HashMap<String, Integer> memo){
@@ -22,7 +19,7 @@ class Solution {
                 totalPalindrome(s, currentCut + 1, end, list, memo);
             }
         }
-        
+    
         memo.put(currentKey, 0);
         return ;
         
