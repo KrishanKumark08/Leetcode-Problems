@@ -27,19 +27,24 @@ class Solution {
         PriorityQueue<Pair> pq = new PriorityQueue<>();
         
         for(ListNode list:lists){
-            while(list != null){
+            if(list != null){
                 pq.add(new Pair(list, list.val));
-                list = list.next;
             }
         }
         
         ListNode dummyNode = new ListNode(-100000);
         ListNode newHead = dummyNode;
+        
         while(!pq.isEmpty()){
             Pair l = pq.remove();
             ListNode newNode = new ListNode(l.val);
             dummyNode.next = newNode;
             dummyNode = newNode;
+            
+            if(l.node.next != null){
+                pq.add(new Pair(l.node.next, l.node.next.val));
+            }
+            
         }
         return newHead.next;
     }
