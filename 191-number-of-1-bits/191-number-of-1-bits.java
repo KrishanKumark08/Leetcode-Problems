@@ -5,7 +5,8 @@ public class Solution {
 		int setBitCount = 0;
         
 		while (n != 0) {
-            n &= (n - 1);
+            int rmst = (n & -n);
+            n = n - rmst;
             ++setBitCount;
         }
 		
