@@ -67,10 +67,7 @@ class Solution {
                         queue.add(new Pair(x, y + 1));
                     }
                 }
-                
-                //System.out.println(x + " " + y + " " + rotProcess);
             }
-            //System.out.println(rotProcess);
             if(rotProcess == true)
                 time++;
             else
