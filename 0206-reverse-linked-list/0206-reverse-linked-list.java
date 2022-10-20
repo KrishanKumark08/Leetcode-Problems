@@ -15,18 +15,11 @@ class Solution {
         }
         
         ListNode currNode = head;
+        ListNode nextNode = head.next;
         
         ListNode reversed = reverseList(head.next);
         currNode.next = null;
-        
-        ListNode curr = reversed;
-        
-        while(curr.next != null){
-            curr = curr.next;
-        }
-        
-        curr.next = currNode;
-        
+        nextNode.next = currNode;
         return reversed;
         
     }
