@@ -13,6 +13,7 @@ class Solution {
         if(list1 == null){
             return list2;
         }
+        
         if(list2 == null){
             return list1;
         }
@@ -21,9 +22,9 @@ class Solution {
             list1.next = mergeTwoLists(list1.next, list2);
             return list1;
         }
-        else{
-            list2.next = mergeTwoLists(list1, list2.next);
-        }
+        
+        list2.next = mergeTwoLists(list1, list2.next);
         return list2;
+        
     }
 }
