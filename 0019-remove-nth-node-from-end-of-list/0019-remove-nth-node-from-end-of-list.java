@@ -11,12 +11,9 @@
 class Solution {
     public ListNode removeNthFromEnd(ListNode head, int n) {
         
-        if(head.next == null){
-            return null;
-        }
-        
-        
-        
+        // if(head.next == null){
+        //     return null;
+        // }
         
         ListNode curr = head;
         
