@@ -1,4 +1,4 @@
-// { Driver Code Starts
+//{ Driver Code Starts
 //Initial Template for Java
 
 import java.io.*;
@@ -22,36 +22,42 @@ class GFG
         }
     }
 }
+
 // } Driver Code Ends
 
 
 //User function Template for Java
 
 class Solution{
-    int matrixMultiplication(int n, int arr[])
+    static int matrixMultiplication(int n, int arr[])
     {
-        int[][] memo = new int[arr.length + 1][arr.length + 1];
-        for(int[] a:memo){
+        int dp[][] = new int[n+1][n+1];
+        
+        for(int a[] : dp){
             Arrays.fill(a, -1);
         }
-        return minOperations(arr, 1, n - 1, memo);
+        return minStep(1, n-1, arr, dp);
     }
-    private int minOperations(int arr[], int start, int end, int[][] memo){
-        if(start >= end){
-            return 0;
+    
+    private static int minStep(int i, int j, int arr[], int dp[][]){
+        if(i == j){
+            return 0; 
         }
         
-        if(memo[start][end] != -1){
-            return memo[start][end];
+        if(dp[i][j] != -1){
+            return dp[i][j];
         }
         
-        int currentAns = Integer.MAX_VALUE;
-        for(int k = start; k < end; k++){
-            int tempAns = minOperations(arr, start, k, memo) + minOperations(arr, k + 1, end, memo) + arr[start - 1]*arr[k]*arr[end];
-            currentAns = Math.min(tempAns, currentAns);
+        int mini = Integer.MAX_VALUE;
+        
+        for(int k = i; k < j; k++){
+            int steps = arr[i-1]*arr[k]*arr[j] + minStep(i, k, arr, dp) + minStep(k + 1, j, arr, dp);
+            mini = Math.min(steps, mini);
+            
         }
         
-        return memo[start][end] = currentAns;
+        return dp[i][j] = mini;
         
     }
+    
 }
